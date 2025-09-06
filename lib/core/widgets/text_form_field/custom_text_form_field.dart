@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
+import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final String? svgIconPath;
@@ -21,23 +23,38 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late bool _isObscured;
+
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = widget.obscureText;
+  }
+
+  void _toggleVisibility() {
+    setState(() {
+      _isObscured = !_isObscured;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Sabit renkler
     final labelColor = AppColors.white50; // %50 beyaz
     final iconColor = AppColors.whiteColor; // düz beyaz
-    final borderColor = AppColors.white40;
+    final borderColor = AppColors.white20;
 
     return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      style: TextStyle(
-        color: AppColors.white50, // input yazı rengi %50 beyaz
-        fontSize: 14,
-      ),
+      controller: widget.controller,
+      obscureText: _isObscured,
+      keyboardType: widget.keyboardType,
+      style: AppTextStyles.bodyNormal.copyWith(color: AppColors.whiteColor),
       decoration: InputDecoration(
-        labelText: labelText,
-        labelStyle: TextStyle(color: labelColor, fontSize: 14),
+        labelText: widget.labelText,
+        labelStyle: AppTextStyles.bodyNormal.copyWith(color: labelColor),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
           borderSide: BorderSide(color: borderColor),
@@ -52,28 +69,47 @@ class CustomTextField extends StatelessWidget {
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 16,
+          vertical: 20, // Yüksekliği artırdık
         ),
-        prefixIcon: svgIconPath != null
+        prefixIcon: widget.svgIconPath != null
             ? Padding(
-                padding: const EdgeInsets.only(left: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: SvgPicture.asset(
-                  svgIconPath!,
-                  width: 24,
-                  height: 24,
-                  color: iconColor, // icon rengi düz beyaz
+                  widget.svgIconPath!,
+                  width: 28,
+                  height: 28,
+                  color: iconColor,
                   fit: BoxFit.scaleDown,
                 ),
               )
-            : (iconData != null
+            : (widget.iconData != null
                   ? Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Icon(iconData, color: iconColor),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Icon(widget.iconData, color: iconColor, size: 28),
                     )
                   : null),
         prefixIconConstraints: const BoxConstraints(
-          minWidth: 40,
-          minHeight: 40,
+          minWidth: 52,
+          minHeight: 52,
+        ),
+        suffixIcon: widget.obscureText
+            ? GestureDetector(
+                onTap: _toggleVisibility,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SvgPicture.asset(
+                    _isObscured ? AppStrings.hideIconPath : AppStrings.icSee,
+                    width: 28,
+                    height: 28,
+                    color: AppColors.white80,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+              )
+            : null,
+        suffixIconConstraints: const BoxConstraints(
+          minWidth: 52,
+          minHeight: 52,
         ),
       ),
     );
