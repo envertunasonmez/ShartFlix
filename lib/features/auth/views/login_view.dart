@@ -30,7 +30,9 @@ class _LoginViewState extends State<LoginView> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF1A0102),
+                  Color(0xFF3F0306),
+                  Color(0xFF3F0306),
+                  Color(0xFF090909),
                   Color(0xFF090909),
                   Color(0xFF090909),
                 ],
@@ -38,22 +40,22 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
           Positioned(
-            top: -50,
-            left: -50,
-            right: -50,
+            top: -100,
+            left: 100,
+            right: 100,
             child: Container(
-              height: 250,
+              height: 200,
               decoration: const BoxDecoration(
                 color: Color(0xFFFF1B1B),
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.elliptical(500, 200),
-                  bottomRight: Radius.elliptical(500, 200),
+                  bottomLeft: Radius.elliptical(150, 75),
+                  bottomRight: Radius.elliptical(150, 75),
                 ),
               ),
             ),
           ),
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+            filter: ImageFilter.blur(sigmaX: 30.0, sigmaY: 30.0),
             child: Container(color: Colors.black.withOpacity(0.5)),
           ),
           SafeArea(
