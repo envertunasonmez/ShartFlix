@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
@@ -21,168 +22,192 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.blackColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 186,
-                  width: 402,
-                  child: Lottie.asset(
-                    "assets/splash_animation.json",
-                    fit: BoxFit.contain,
-                  ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF1A0102),
+                  Color(0xFF090909),
+                  Color(0xFF090909),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: -50,
+            left: -50,
+            right: -50,
+            child: Container(
+              height: 250,
+              decoration: const BoxDecoration(
+                color: Color(0xFFFF1B1B),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.elliptical(500, 200),
+                  bottomRight: Radius.elliptical(500, 200),
                 ),
-                SvgPicture.asset(AppStrings.logoPath, height: 100),
-                SizedBox(height: 4),
-                Text(
-                  'Giriş Yap',
-                  style: AppTextStyles.heading32.copyWith(
-                    color: AppColors.whiteColor,
-                    fontSize: 29,
-                  ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'Kullanıcı bilgilerinle giriş yap',
-                  style: AppTextStyles.bodyLarge.copyWith(
-                    color: AppColors.white90,
-                  ),
-                ),
-                const SizedBox(height: 36),
-
-                CustomTextField(
-                  controller: _emailController,
-                  labelText: "E-posta",
-                  svgIconPath: AppStrings.emailIconPath,
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                const SizedBox(height: 20),
-
-                CustomTextField(
-                  controller: _passwordController,
-                  labelText: "Şifre",
-                  svgIconPath: AppStrings.passwordIconPath,
-                  obscureText: true,
-                ),
-
-                // Şifremi Unuttum bağlantısı
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      // Şifremi unuttum fonksiyonu
-                      debugPrint("Şifremi unuttum tıklandı");
-                    },
-                    child: Text(
-                      "Şifremi Unuttum",
-                      style: TextStyle(color: AppColors.white90, fontSize: 14),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Giriş Yap butonu
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      final email = _emailController.text;
-                      final password = _passwordController.text;
-                      debugPrint("Email: $email, Password: $password");
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      "Giriş Yap",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Sosyal medya giriş butonları
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              ),
+            ),
+          ),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+            child: Container(color: Colors.black.withOpacity(0.5)),
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _buildSocialButton(
-                      iconPath: AppStrings.googleIconPath,
-                      onTap: () {
-                        debugPrint("Google ile giriş");
-                      },
-                    ),
-                    const SizedBox(width: 16), // 4px boşluk
-                    _buildSocialButton(
-                      iconPath: AppStrings.appleIconPath,
-                      onTap: () {
-                        debugPrint("Apple ile giriş");
-                      },
-                    ),
-                    const SizedBox(width: 16), // 4px boşluk
-                    _buildSocialButton(
-                      iconPath: AppStrings.facebookIconPath,
-                      onTap: () {
-                        debugPrint("Facebook ile giriş");
-                      },
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 8),
-
-                // Kayıt ol bağlantısı
-                // Kayıt ol bağlantısı
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterView(),
+                    SizedBox(
+                      height: 186,
+                      width: 402,
+                      child: Lottie.asset(
+                        "assets/splash_animation.json",
+                        fit: BoxFit.contain,
                       ),
-                    );
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Hesabın yok mu? ",
-                          style: AppTextStyles.bodyNormal.copyWith(
-                            color: AppColors.white80,
+                    ),
+                    SvgPicture.asset(AppStrings.logoPath, height: 100),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Giriş Yap',
+                      style: AppTextStyles.heading32.copyWith(
+                        color: AppColors.whiteColor,
+                        fontSize: 29,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Kullanıcı bilgilerinle giriş yap',
+                      style: AppTextStyles.bodyLarge.copyWith(
+                        color: AppColors.white90,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    CustomTextField(
+                      controller: _emailController,
+                      labelText: "E-posta",
+                      svgIconPath: AppStrings.emailIconPath,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextField(
+                      controller: _passwordController,
+                      labelText: "Şifre",
+                      svgIconPath: AppStrings.passwordIconPath,
+                      obscureText: true,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          debugPrint("Şifremi unuttum tıklandı");
+                        },
+                        child: Text(
+                          "Şifremi Unuttum",
+                          style: TextStyle(
+                            color: AppColors.white90,
+                            fontSize: 14,
                           ),
                         ),
-                        const WidgetSpan(child: SizedBox(width: 4)),
-                        TextSpan(
-                          text: "Kayıt ol",
-                          style: AppTextStyles.bodyNormal.copyWith(
-                            color: AppColors.whiteColor,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final email = _emailController.text;
+                          final password = _passwordController.text;
+                          debugPrint("Email: $email, Password: $password");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.whiteColor,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                        ),
+                        child: const Text(
+                          "Giriş Yap",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildSocialButton(
+                          iconPath: AppStrings.googleIconPath,
+                          onTap: () {
+                            debugPrint("Google ile giriş");
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                        _buildSocialButton(
+                          iconPath: AppStrings.appleIconPath,
+                          onTap: () {
+                            debugPrint("Apple ile giriş");
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                        _buildSocialButton(
+                          iconPath: AppStrings.facebookIconPath,
+                          onTap: () {
+                            debugPrint("Facebook ile giriş");
+                          },
                         ),
                       ],
                     ),
-                  ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterView(),
+                          ),
+                        );
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Hesabın yok mu? ",
+                              style: AppTextStyles.bodyNormal.copyWith(
+                                color: AppColors.white80,
+                              ),
+                            ),
+                            const WidgetSpan(child: SizedBox(width: 4)),
+                            TextSpan(
+                              text: "Kayıt ol",
+                              style: AppTextStyles.bodyNormal.copyWith(
+                                color: AppColors.whiteColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  // Sosyal medya butonu widget'ı
   Widget _buildSocialButton({
     required String iconPath,
     required VoidCallback onTap,
