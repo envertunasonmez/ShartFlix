@@ -185,10 +185,10 @@ class _LoginViewState extends State<LoginView> {
                             TextSpan(
                               text: "Hesabın yok mu? ",
                               style: AppTextStyles.bodyNormal.copyWith(
-                                color: AppColors.white80,
+                                color: AppColors.white70,
                               ),
                             ),
-                            const WidgetSpan(child: SizedBox(width: 4)),
+                            const WidgetSpan(child: SizedBox(width: 8)),
                             TextSpan(
                               text: "Kayıt ol",
                               style: AppTextStyles.bodyNormal.copyWith(
