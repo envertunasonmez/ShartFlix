@@ -111,9 +111,8 @@ class _LoginViewState extends State<LoginView> {
                         },
                         child: Text(
                           "Şifremi Unuttum",
-                          style: TextStyle(
-                            color: AppColors.white90,
-                            fontSize: 14,
+                          style: AppTextStyles.bodyNormal.copyWith(
+                            color: AppColors.whiteColor,
                           ),
                         ),
                       ),
