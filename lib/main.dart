@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
 import 'package:jr_case_boilerplate/features/home/view/home_view.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'ShartFlix',
+      title: AppStrings.appName,
 
       home: const HomeView(),
     );
