@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_strings.dart';
 
 class CustomNavBar extends StatelessWidget {
   const CustomNavBar({
@@ -29,17 +31,35 @@ class CustomNavBar extends StatelessWidget {
   Widget _navItem({required int index, required String label}) {
     final bool isSelected = currentIndex == index;
 
+    String iconPath;
+    if (index == 0) {
+      iconPath = isSelected
+          ? AppStrings.selectedHome
+          : AppStrings.unselectedHome;
+    } else {
+      iconPath = isSelected
+          ? AppStrings.selectedProfile
+          : AppStrings.unselectedProfile;
+    }
+
+    if (currentIndex == 0 && index == 1) {
+      iconPath = AppStrings.unselectedProfile;
+    }
+    if (currentIndex == 1 && index == 0) {
+      iconPath = AppStrings.unselectedHome;
+    }
+
     return GestureDetector(
       onTap: () => onTap(index),
       child: Container(
         height: 48,
         decoration: BoxDecoration(
           gradient: isSelected
-              ? const LinearGradient(
+              ? LinearGradient(
                   colors: [
-                    Color(0xFF7F050B), 
-                    Color(0xFFE50914),
-                    Color(0xFF7F050B), 
+                    AppColors.primaryDark,
+                    AppColors.primary,
+                    AppColors.primaryDark,
                   ],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
@@ -53,13 +73,18 @@ class CustomNavBar extends StatelessWidget {
           ),
         ),
         alignment: Alignment.center,
-        child: Text(
-          label,
-          style: AppTextStyles.bodyNormal.copyWith(
-            color: isSelected
-                ? AppColors.whiteColor
-                : AppColors.whiteColor.withOpacity(0.7),
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(iconPath, width: 24, height: 24),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: AppTextStyles.bodyNormal.copyWith(
+                color: AppColors.whiteColor,
+              ),
+            ),
+          ],
         ),
       ),
     );
