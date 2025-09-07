@@ -12,8 +12,8 @@ class CustomElevatedButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.backgroundColor = AppColors.primary, // default kırmızı
-    this.textColor = AppColors.whiteColor, // default beyaz
+    this.backgroundColor = AppColors.primary, 
+    this.textColor = AppColors.whiteColor,
   });
 
   @override
@@ -25,8 +25,8 @@ class CustomElevatedButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
-          overlayColor: Colors.transparent, // 🔹 overlay kalktı
-          splashFactory: NoSplash.splashFactory, // 🔹 ripple efekt kalktı
+          overlayColor: Colors.transparent, 
+          splashFactory: NoSplash.splashFactory, 
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
