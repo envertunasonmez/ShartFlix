@@ -15,4 +15,6 @@ class AppStrings {
   static const String hideIconPath = 'assets/icons/ic_hide.svg';
   static const String userIconPath = 'assets/icons/ic_user.svg';
   static const String icSee = 'assets/icons/ic_see.svg';
+  static const String backArrowIcon = 'assets/icons/ic_back_arrow.svg';
+  static const String profilePicIcon = 'assets/icons/ic_profile_pic.svg';
 }
