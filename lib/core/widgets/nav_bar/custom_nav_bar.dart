@@ -34,10 +34,21 @@ class CustomNavBar extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : Colors.transparent,
+          gradient: isSelected
+              ? const LinearGradient(
+                  colors: [
+                    Color(0xFF7F050B), 
+                    Color(0xFFE50914),
+                    Color(0xFF7F050B), 
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                )
+              : null,
+          color: isSelected ? null : Colors.transparent,
           borderRadius: BorderRadius.circular(42),
           border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.whiteColor,
+            color: isSelected ? Colors.transparent : AppColors.whiteColor,
             width: 1,
           ),
         ),
