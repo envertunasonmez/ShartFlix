@@ -43,8 +43,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final labelColor = AppColors.white50; // %50 beyaz
-    final iconColor = AppColors.whiteColor; // düz beyaz
+    final labelColor = AppColors.white50; 
+    final iconColor = AppColors.whiteColor; 
     final borderColor = AppColors.white20;
 
     return TextField(
@@ -69,7 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 20, // Yüksekliği artırdık
+          vertical: 20,
         ),
         prefixIcon: widget.svgIconPath != null
             ? Padding(
