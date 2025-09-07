@@ -5,9 +5,7 @@ class AppStrings {
   // Assets Constants
   static const String logoPath = 'assets/images/shartflix_logo.svg';
   static const String splashAnimationPath = 'assets/splash_animation.json';
-  static const String googleIconPath = 'assets/icons/ic_google.svg';
-  static const String appleIconPath = 'assets/icons/ic_apple.svg';
-  static const String facebookIconPath = 'assets/icons/ic_facebook.svg';
+  static const String homeImage = 'assets/images/home_image.png';
 
   // Icons Constants
   static const String emailIconPath = 'assets/icons/ic_mail.svg';
@@ -17,4 +15,7 @@ class AppStrings {
   static const String icSee = 'assets/icons/ic_see.svg';
   static const String backArrowIcon = 'assets/icons/ic_back_arrow.svg';
   static const String profilePicIcon = 'assets/icons/ic_profile_pic.svg';
+  static const String googleIconPath = 'assets/icons/ic_google.svg';
+  static const String appleIconPath = 'assets/icons/ic_apple.svg';
+  static const String facebookIconPath = 'assets/icons/ic_facebook.svg';
 }
