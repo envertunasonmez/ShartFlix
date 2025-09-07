@@ -4,7 +4,7 @@ import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color backgroundColor;
   final Color textColor;
 
@@ -12,7 +12,7 @@ class CustomElevatedButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.backgroundColor = AppColors.primary, 
+    this.backgroundColor = AppColors.primary,
     this.textColor = AppColors.whiteColor,
   });
 
@@ -25,8 +25,8 @@ class CustomElevatedButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
-          overlayColor: Colors.transparent, 
-          splashFactory: NoSplash.splashFactory, 
+          overlayColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
