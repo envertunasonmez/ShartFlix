@@ -42,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 const SizedBox(height: 20),
                 SocialButtons(width: width),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
                 RegisterRedirect(width: width),
               ],
             ),
