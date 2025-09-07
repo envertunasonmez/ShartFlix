@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
 
@@ -16,7 +15,7 @@ class HomeView extends StatelessWidget {
           SizedBox(
             width: size.width,
             height: size.height,
-            child: SvgPicture.asset(AppStrings.homeImage, fit: BoxFit.cover),
+            child: Image.asset(AppStrings.homeImage, fit: BoxFit.cover),
           ),
 
           Align(
