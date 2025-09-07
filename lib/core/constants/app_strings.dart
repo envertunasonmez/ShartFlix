@@ -18,4 +18,8 @@ class AppStrings {
   static const String googleIconPath = 'assets/icons/ic_google.svg';
   static const String appleIconPath = 'assets/icons/ic_apple.svg';
   static const String facebookIconPath = 'assets/icons/ic_facebook.svg';
+  static const String selectedHome = 'assets/icons/selected_home.svg';
+  static const String unselectedHome = 'assets/icons/unselect_home.svg';
+  static const String selectedProfile = 'assets/icons/selected_profile.svg';
+  static const String unselectedProfile = 'assets/icons/unselect_profile.svg';
 }
