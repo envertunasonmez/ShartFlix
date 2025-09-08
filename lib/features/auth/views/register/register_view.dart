@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jr_case_boilerplate/bloc/register/register_bloc.dart';
+import 'package:jr_case_boilerplate/bloc/register/register_event.dart';
+import 'package:jr_case_boilerplate/bloc/register/register_state.dart';
+import 'package:jr_case_boilerplate/core/data/models/register_request_model.dart';
 import 'package:jr_case_boilerplate/core/widgets/background/custom_background.dart';
 import 'package:jr_case_boilerplate/features/auth/views/register/widgets/register_header.dart';
 import 'package:jr_case_boilerplate/features/auth/views/register/widgets/register_form.dart';
@@ -27,42 +32,65 @@ class _RegisterViewState extends State<RegisterView> {
 
     return Scaffold(
       body: CustomBackground(
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                RegisterHeader(height: height),
-                RegisterForm(
-                  nameController: _nameController,
-                  emailController: _emailController,
-                  passwordController: _passwordController,
-                  confirmPasswordController: _confirmPasswordController,
-                  isTermsAccepted: _isTermsAccepted,
-                  onTermsChanged: (value) =>
-                      setState(() => _isTermsAccepted = value ?? false),
-                  onRegisterPressed: _handleRegister,
+        child: BlocConsumer<RegisterBloc, RegisterState>(
+          listener: (context, state) {
+            if (state is RegisterSuccess) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text("✅ Kayıt başarılı")));
+            } else if (state is RegisterFailure) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text("❌ Hata: ${state.error}")));
+            }
+          },
+          builder: (context, state) {
+            return SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RegisterHeader(height: height),
+                    RegisterForm(
+                      nameController: _nameController,
+                      emailController: _emailController,
+                      passwordController: _passwordController,
+                      confirmPasswordController: _confirmPasswordController,
+                      isTermsAccepted: _isTermsAccepted,
+                      onTermsChanged: (value) =>
+                          setState(() => _isTermsAccepted = value ?? false),
+                      onRegisterPressed: () => _handleRegister(context),
+                    ),
+                    const SizedBox(height: 20),
+                    SocialButtons(width: width),
+                    const SizedBox(height: 16),
+                    LoginRedirect(width: width),
+                    if (state is RegisterLoading)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: CircularProgressIndicator(),
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                SocialButtons(width: width),
-                const SizedBox(height: 16),
-                LoginRedirect(width: width),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  void _handleRegister() {
+  void _handleRegister(BuildContext context) {
     if (_isTermsAccepted) {
       if (_passwordController.text == _confirmPasswordController.text) {
-        debugPrint(
-          "✅ Kayıt başarılı: ${_nameController.text}, ${_emailController.text}",
+        final model = RegisterRequestModel(
+          email: _emailController.text,
+          name: _nameController.text,
+          password: _passwordController.text,
         );
+        context.read<RegisterBloc>().add(RegisterSubmitted(model));
       } else {
         ScaffoldMessenger.of(
           context,
