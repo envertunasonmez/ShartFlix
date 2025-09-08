@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
+import 'package:jr_case_boilerplate/core/routes/app_routes.dart';
 import 'package:jr_case_boilerplate/core/widgets/buttons/custom_elevated_button.dart';
 
 class ActionButtonsSection extends StatelessWidget {
@@ -13,14 +15,21 @@ class ActionButtonsSection extends StatelessWidget {
       children: [
         CustomElevatedButton(
           text: "Devam Et",
-          onPressed: isPhotoSelected ? () {} : null,
-          backgroundColor:
-              isPhotoSelected ? AppColors.primary : AppColors.white90,
+          onPressed: isPhotoSelected
+              ? () {
+                  context.go(AppRoutes.mainWrapper);
+                }
+              : null,
+          backgroundColor: isPhotoSelected
+              ? AppColors.primary
+              : AppColors.white90,
           textColor: AppColors.whiteColor,
         ),
         const SizedBox(height: 16),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            context.go(AppRoutes.mainWrapper);
+          },
           child: Text(
             "Atla",
             style: AppTextStyles.bodyLarge.copyWith(

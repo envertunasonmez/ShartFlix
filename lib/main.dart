@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jr_case_boilerplate/main_wrapper.dart';
-import 'core/constants/app_strings.dart';
-import 'core/routes/app_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jr_case_boilerplate/bloc/login/login_bloc.dart';
+import 'package:jr_case_boilerplate/bloc/register/register_bloc.dart';
+import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
+import 'package:jr_case_boilerplate/core/data/repositories/auth_repository.dart';
+import 'package:jr_case_boilerplate/core/data/services/auth_service.dart';
+import 'package:jr_case_boilerplate/core/routes/app_router.dart';
+import 'package:jr_case_boilerplate/features/splash/view/splash_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,13 +17,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: AppStrings.appName,
-      routerConfig: appRouter,
-      builder: (context, child) {
-        return const MainWrapper(); 
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              RegisterBloc(authRepository: AuthRepository(AuthService())),
+        ),
+        BlocProvider(
+          create: (_) => LoginBloc(repository: AuthRepository(AuthService())),
+        ),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: AppStrings.appName,
+        routerConfig: appRouter, 
+      ),
     );
   }
 }
