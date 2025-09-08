@@ -46,4 +46,12 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>
+</dict>
+<!-- Fotoğraf galerisi ve kamera erişimi için izin açıklamaları -->
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Profil fotoğrafı seçmek için fotoğraf galerisine erişim izni gereklidir.</string>
+<key>NSCameraUsageDescription</key>
+<string>Profil fotoğrafı çekmek için kamera erişim izni gereklidir.</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Fotoğrafı kaydetmek için fotoğraf galerisine ekleme izni gereklidir.</string>
 </plist>
