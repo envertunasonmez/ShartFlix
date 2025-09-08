@@ -5,9 +5,18 @@ import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 import 'package:jr_case_boilerplate/core/routes/app_routes.dart';
 import 'package:jr_case_boilerplate/core/widgets/buttons/custom_elevated_button.dart';
 
+typedef UploadPhotoCallback = void Function(String photoPath);
+
 class ActionButtonsSection extends StatelessWidget {
   final bool isPhotoSelected;
-  const ActionButtonsSection({super.key, required this.isPhotoSelected});
+  final UploadPhotoCallback? onUpload;
+  final String? photoPath;
+  const ActionButtonsSection({
+    super.key,
+    required this.isPhotoSelected,
+    this.onUpload,
+    this.photoPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +24,9 @@ class ActionButtonsSection extends StatelessWidget {
       children: [
         CustomElevatedButton(
           text: "Devam Et",
-          onPressed: isPhotoSelected
+          onPressed: isPhotoSelected && onUpload != null && photoPath != null
               ? () {
-                  context.go(AppRoutes.mainWrapper);
+                  onUpload!(photoPath!);
                 }
               : null,
           backgroundColor: isPhotoSelected

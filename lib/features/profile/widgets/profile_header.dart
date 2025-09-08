@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jr_case_boilerplate/core/routes/app_routes.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String name;
@@ -46,12 +48,18 @@ class ProfileHeader extends StatelessWidget {
             ],
           ),
         ),
-        TextButton(
-          onPressed: () {},
-          child: const Text(
-            'Fotoğraf Ekle',
-            style: TextStyle(color: Colors.white70, fontSize: 14),
-          ),
+        Builder(
+          builder: (context) {
+            return TextButton(
+              onPressed: () {
+                context.go(AppRoutes.uploadPhoto);
+              },
+              child: const Text(
+                'Fotoğraf Ekle',
+                style: TextStyle(color: Colors.white70, fontSize: 14),
+              ),
+            );
+          },
         ),
       ],
     );
