@@ -3,6 +3,7 @@ import '../models/register_request_model.dart';
 import '../models/register_response_model.dart';
 import '../models/login_request_model.dart';
 import '../models/login_response_model.dart';
+import '../storage/token_storage.dart';
 
 class AuthService {
   final Dio _dio = Dio(
@@ -16,6 +17,8 @@ class AuthService {
 
   Future<LoginResponseModel> login(LoginRequestModel model) async {
     final response = await _dio.post("user/login", data: model.toJson());
-    return LoginResponseModel.fromJson(response.data);
+    final loginResponse = LoginResponseModel.fromJson(response.data);
+    await TokenStorage.saveToken(loginResponse.token);
+    return loginResponse;
   }
 }
