@@ -4,6 +4,7 @@ import 'package:jr_case_boilerplate/bloc/login/login_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/movie_list/movie_list_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/movie_list/movie_list_event.dart';
 import 'package:jr_case_boilerplate/bloc/profile/profile_bloc.dart';
+import 'package:jr_case_boilerplate/bloc/profile/profile_event.dart';
 import 'package:jr_case_boilerplate/bloc/register/register_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/upload_photo/upload_photo_bloc.dart';
 import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) =>
-              ProfileBloc(repository: ProfileRepository(ProfileService())),
+              ProfileBloc(repository: ProfileRepository(ProfileService()))
+                ..add(LoadProfile()),
         ),
         BlocProvider(
           create: (_) => UploadPhotoBloc(
@@ -58,7 +60,8 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) =>
-              FavoriteMovieListCubit(FavoriteRepository(FavoriteService())),
+              FavoriteMovieListCubit(FavoriteRepository(FavoriteService()))
+                ..fetchFavorites(),
         ),
       ],
       child: MaterialApp.router(
