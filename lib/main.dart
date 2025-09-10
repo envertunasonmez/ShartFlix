@@ -11,14 +11,15 @@ import 'package:jr_case_boilerplate/core/data/repositories/auth_repository.dart'
 import 'package:jr_case_boilerplate/core/data/repositories/movie_repository.dart';
 import 'package:jr_case_boilerplate/core/data/repositories/profile_repository.dart';
 import 'package:jr_case_boilerplate/core/data/repositories/upload_photo_repository.dart';
-import 'package:jr_case_boilerplate/core/data/repositories/favorite_repository.dart'; 
+import 'package:jr_case_boilerplate/core/data/repositories/favorite_repository.dart';
 import 'package:jr_case_boilerplate/core/data/services/auth_service.dart';
 import 'package:jr_case_boilerplate/core/data/services/movie_service.dart';
 import 'package:jr_case_boilerplate/core/data/services/profile_service.dart';
 import 'package:jr_case_boilerplate/core/data/services/upload_photo_service.dart';
 import 'package:jr_case_boilerplate/core/data/services/favorite_service.dart';
 import 'package:jr_case_boilerplate/core/routes/app_router.dart';
-import 'package:jr_case_boilerplate/cubit/favorite/favorite_cubit.dart';
+import 'package:jr_case_boilerplate/cubit/add_favorite/add_favorite_cubit.dart';
+import 'package:jr_case_boilerplate/cubit/favorite_movies/favorite_movie_list_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,9 +54,11 @@ class MyApp extends StatelessWidget {
                 ..add(FetchMovies(page: 1)),
         ),
         BlocProvider(
-          create: (_) => FavoriteCubit(
-            FavoriteRepository(FavoriteService()), 
-          ),
+          create: (_) => FavoriteCubit(FavoriteRepository(FavoriteService())),
+        ),
+        BlocProvider(
+          create: (_) =>
+              FavoriteMovieListCubit(FavoriteRepository(FavoriteService())),
         ),
       ],
       child: MaterialApp.router(

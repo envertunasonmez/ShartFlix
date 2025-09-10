@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/profile/profile_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/profile/profile_event.dart';
 import 'package:jr_case_boilerplate/bloc/profile/profile_state.dart';
+import 'package:jr_case_boilerplate/cubit/favorite_movies/favorite_movie_list_cubit.dart';
+import 'package:jr_case_boilerplate/cubit/favorite_movies/favorite_movie_list_state.dart';
+
 import 'package:jr_case_boilerplate/features/profile/widgets/profile_header.dart';
 import 'package:jr_case_boilerplate/features/profile/widgets/profile_movie_card.dart';
 import 'package:jr_case_boilerplate/features/profile/widgets/profile_special_offer.dart';
@@ -28,18 +31,19 @@ class ProfileView extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(20.0),
             child: RefreshIndicator(
               color: Colors.white,
               backgroundColor: primaryDark,
               onRefresh: () async {
                 context.read<ProfileBloc>().add(LoadProfile());
+                context.read<FavoriteMovieListCubit>().fetchFavorites();
                 await Future.delayed(const Duration(milliseconds: 500));
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header
+                  // Header + Special Offer
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -51,45 +55,27 @@ class ProfileView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Row(
-                        children: [
-                          const ProfileSpecialOffer(),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.refresh,
-                              color: Colors.white,
-                            ),
-                            tooltip: 'Yenile',
-                            onPressed: () {
-                              context.read<ProfileBloc>().add(LoadProfile());
-                            },
-                          ),
-                        ],
-                      ),
+                      const ProfileSpecialOffer(),
                     ],
                   ),
-
                   const SizedBox(height: 24),
 
-                  // Profile Section with BLoC
+                  // Profile Info with BLoC
                   BlocBuilder<ProfileBloc, ProfileState>(
                     builder: (context, state) {
                       if (state is ProfileLoading) {
                         return const Center(
                           child: CircularProgressIndicator(color: Colors.white),
                         );
-                      }
-
-                      if (state is ProfileError) {
+                      } else if (state is ProfileError) {
                         return Center(
                           child: Text(
                             'Hata: ${state.message}',
                             style: const TextStyle(color: Colors.red),
                           ),
                         );
-                      }
-
-                      if (state is ProfileLoaded || state is ProfileUpdated) {
+                      } else if (state is ProfileLoaded ||
+                          state is ProfileUpdated) {
                         final profile = state is ProfileLoaded
                             ? state.profile
                             : (state as ProfileUpdated).profile;
@@ -100,14 +86,6 @@ class ProfileView extends StatelessWidget {
                           photoUrl: profile.photoUrl,
                         );
                       }
-
-                      // Initial state - trigger profile load
-                      if (state is ProfileInitial) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          context.read<ProfileBloc>().add(LoadProfile());
-                        });
-                      }
-
                       return const ProfileHeader(
                         name: 'Yükleniyor...',
                         id: '---',
@@ -117,8 +95,6 @@ class ProfileView extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 32),
-
-                  // Beğendiklerim Section
                   const Text(
                     'Beğendiklerim',
                     style: TextStyle(
@@ -127,43 +103,62 @@ class ProfileView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 16),
 
-                  // Movies Grid
+                  // Favorites Grid
                   Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 0.75,
-                      children: const [
-                        ProfileMovieCard(
-                          title: 'LOVE\nAGAIN',
-                          subtitle: 'Aşk Yeniden',
-                          studio: 'Sony',
-                          accentColor: Colors.blue,
+                    child:
+                        BlocBuilder<
+                          FavoriteMovieListCubit,
+                          FavoriteMovieListState
+                        >(
+                          builder: (context, state) {
+                            if (state is FavoriteLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              );
+                            } else if (state is FavoriteError) {
+                              return Center(
+                                child: Text(
+                                  'Hata: ${state.message}',
+                                  style: const TextStyle(color: Colors.red),
+                                ),
+                              );
+                            } else if (state is FavoriteLoaded) {
+                              final movies = state.movies;
+                              if (movies.isEmpty) {
+                                return const Center(
+                                  child: Text(
+                                    'Henüz favori film yok.',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                );
+                              }
+                              return GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 12,
+                                      mainAxisSpacing: 12,
+                                      childAspectRatio: 0.6,
+                                    ),
+                                itemCount: movies.length,
+                                itemBuilder: (context, index) {
+                                  final movie = movies[index];
+                                  return ProfileMovieCard(
+                                    title: movie.title,
+                                    description: movie.description,
+                                    posterUrl: movie.posterUrl,
+                                    accentColor: Colors.blueAccent,
+                                  );
+                                },
+                              );
+                            }
+                            return const SizedBox();
+                          },
                         ),
-                        ProfileMovieCard(
-                          title: 'PAST\nLIVES',
-                          subtitle: 'Başka Bir Hayatta',
-                          studio: 'A24',
-                          accentColor: Colors.grey,
-                        ),
-                        ProfileMovieCard(
-                          title: 'ANYONE\nBUT YOU',
-                          subtitle: 'Senden Başka',
-                          studio: 'Columbia',
-                          accentColor: Colors.green,
-                        ),
-                        ProfileMovieCard(
-                          title: 'Culpa\nMía',
-                          subtitle: 'Culpa mía',
-                          studio: 'Netflix',
-                          accentColor: Colors.orange,
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),

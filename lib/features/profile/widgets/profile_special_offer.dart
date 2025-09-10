@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
+import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
+import 'package:jr_case_boilerplate/core/widgets/buttons/custom_elevated_button.dart';
 
 class ProfileSpecialOffer extends StatelessWidget {
   const ProfileSpecialOffer({super.key});
@@ -10,13 +15,17 @@ class ProfileSpecialOffer extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.red,
+          gradient: LinearGradient(
+            colors: [AppColors.primary, AppColors.primaryDark],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.favorite, color: Colors.white, size: 16),
+            SvgPicture.asset(AppStrings.diamondIcon, width: 20, height: 20),
             SizedBox(width: 4),
             Text(
               'Sınırlı Teklif',
@@ -65,8 +74,12 @@ class SpecialOfferBottomSheet extends StatelessWidget {
           child: Column(
             children: [
               // Header
-              Padding(
+              Container(
                 padding: const EdgeInsets.all(16.0),
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -98,9 +111,14 @@ class SpecialOfferBottomSheet extends StatelessWidget {
               ),
 
               // Description
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
+              Container(
+                width: double.infinity,
+                color: Colors.black,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 16.0,
+                ),
+                child: const Text(
                   'Jeton paketini seçerek bonus kazanın ve yeni bölümlerin kilidini açın!',
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                   textAlign: TextAlign.center,
@@ -114,7 +132,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.black26,
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.white24, width: 1),
                 ),
@@ -148,15 +166,21 @@ class SpecialOfferBottomSheet extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Packages Title
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
+              Container(
+                width: double.infinity,
+                color: Colors.black,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 16.0,
+                ),
+                child: const Text(
                   'Kilidi açmak için bir jeton paketi seçin',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
 
@@ -208,29 +232,17 @@ class SpecialOfferBottomSheet extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Buy Button
-              Padding(
+              // Buy Button - CustomElevatedButton kullanımı
+              Container(
+                color: Colors.black,
                 padding: const EdgeInsets.all(16.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE53E3E),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      'Tüm Jetonları Gör',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                child: CustomElevatedButton(
+                  text: 'Tüm Jetonları Gör',
+                  backgroundColor: AppColors.primary,
+                  textColor: AppColors.whiteColor,
+                  onPressed: () {
+                    // Buton işlevi
+                  },
                 ),
               ),
             ],
