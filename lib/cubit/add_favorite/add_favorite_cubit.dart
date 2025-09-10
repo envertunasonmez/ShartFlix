@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/core/data/models/favorite_request_model.dart';
 import 'package:jr_case_boilerplate/core/data/repositories/favorite_repository.dart';
-import 'package:jr_case_boilerplate/cubit/favorite/favorite_state.dart';
+import 'package:jr_case_boilerplate/cubit/add_favorite/add_favorite_state.dart';
 
-class FavoriteCubit extends Cubit<FavoriteState> {
+class FavoriteCubit extends Cubit<AddFavoriteState> {
   final FavoriteRepository _repository;
 
   FavoriteCubit(this._repository) : super(FavoriteInitial());
