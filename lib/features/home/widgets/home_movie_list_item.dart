@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
-import 'package:jr_case_boilerplate/cubit/favorite/favorite_cubit.dart';
-import 'package:jr_case_boilerplate/cubit/favorite/favorite_state.dart';
+import 'package:jr_case_boilerplate/cubit/add_favorite/add_favorite_cubit.dart';
+import 'package:jr_case_boilerplate/cubit/add_favorite/add_favorite_state.dart';
 import 'package:jr_case_boilerplate/features/home/widgets/movie_info_section.dart';
 import '../widgets/fav_button.dart';
 
@@ -74,7 +74,7 @@ class HomeMovieListItem extends StatelessWidget {
         Positioned(
           bottom: 200,
           right: 20,
-          child: BlocBuilder<FavoriteCubit, FavoriteState>(
+          child: BlocBuilder<FavoriteCubit, AddFavoriteState>(
             builder: (context, state) {
               final isFav = context.read<FavoriteCubit>().isFavorite(movieId);
 
