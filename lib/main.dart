@@ -11,11 +11,14 @@ import 'package:jr_case_boilerplate/core/data/repositories/auth_repository.dart'
 import 'package:jr_case_boilerplate/core/data/repositories/movie_repository.dart';
 import 'package:jr_case_boilerplate/core/data/repositories/profile_repository.dart';
 import 'package:jr_case_boilerplate/core/data/repositories/upload_photo_repository.dart';
+import 'package:jr_case_boilerplate/core/data/repositories/favorite_repository.dart'; 
 import 'package:jr_case_boilerplate/core/data/services/auth_service.dart';
 import 'package:jr_case_boilerplate/core/data/services/movie_service.dart';
 import 'package:jr_case_boilerplate/core/data/services/profile_service.dart';
 import 'package:jr_case_boilerplate/core/data/services/upload_photo_service.dart';
+import 'package:jr_case_boilerplate/core/data/services/favorite_service.dart';
 import 'package:jr_case_boilerplate/core/routes/app_router.dart';
+import 'package:jr_case_boilerplate/cubit/favorite/favorite_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,6 +51,11 @@ class MyApp extends StatelessWidget {
           create: (_) =>
               MovieBloc(MovieRepository(MovieService()))
                 ..add(FetchMovies(page: 1)),
+        ),
+        BlocProvider(
+          create: (_) => FavoriteCubit(
+            FavoriteRepository(FavoriteService()), 
+          ),
         ),
       ],
       child: MaterialApp.router(
