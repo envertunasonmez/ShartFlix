@@ -21,7 +21,7 @@ class HomeMovieListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     bool isFav = false;
-    // HTTP -> HTTPS 
+    // HTTP -> HTTPS
     final imageUrl = image.startsWith("http://")
         ? image.replaceFirst("http://", "https://")
         : image;
@@ -33,7 +33,7 @@ class HomeMovieListItem extends StatelessWidget {
           height: size.height,
           child: Image.network(
             imageUrl,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
               return Center(
