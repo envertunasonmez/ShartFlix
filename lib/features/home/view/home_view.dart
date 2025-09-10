@@ -26,8 +26,8 @@ class HomeView extends StatelessWidget {
                   title: movie.title,
                   description: movie.description,
                   image: movie.posterUrl,
+                  movieId: movie.id, 
                   onFavTap: (isFav) {
-                    // 🔹 Burada ileride post işlemi yapılacak
                     print("Fav durumu değişti: $isFav, film id: ${movie.id}");
                   },
                 );
