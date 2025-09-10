@@ -3,16 +3,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
 
-class FavButton extends StatelessWidget {
+class FavButton extends StatefulWidget {
   final bool isFav;
   final VoidCallback onTap;
 
   const FavButton({super.key, required this.isFav, required this.onTap});
 
   @override
+  State<FavButton> createState() => _FavButtonState();
+}
+
+class _FavButtonState extends State<FavButton> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         height: 72,
         width: 52,
@@ -23,7 +28,7 @@ class FavButton extends StatelessWidget {
         ),
         child: Center(
           child: SvgPicture.asset(
-            isFav ? AppStrings.selectedFav : AppStrings.unselectedFav,
+            widget.isFav ? AppStrings.selectedFav : AppStrings.unselectedFav,
             width: 24,
             height: 24,
           ),
