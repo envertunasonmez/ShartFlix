@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-// Film kartı widget'ı
 class ProfileMovieCard extends StatelessWidget {
   final String title;
-  final String subtitle;
-  final String studio;
+  final String description;
+  final String posterUrl;
   final Color accentColor;
 
   const ProfileMovieCard({
     super.key,
     required this.title,
-    required this.subtitle,
-    required this.studio,
+    required this.description,
+    required this.posterUrl,
     required this.accentColor,
   });
 
@@ -25,59 +24,59 @@ class ProfileMovieCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Poster Image
           Expanded(
             flex: 3,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.3),
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
               ),
-              child: Center(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+              child: Image.network(
+                posterUrl,
+                width: double.infinity,
+                fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey[800],
+                  child: const Center(
+                    child: Icon(Icons.broken_image, color: Colors.white),
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
           ),
+          // Title & Description
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               width: double.infinity,
-              decoration: const BoxDecoration(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
                 color: Colors.black,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(12),
                 ),
               ),
-              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    subtitle,
+                    title,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    studio,
-                    style: const TextStyle(color: Colors.grey, fontSize: 10),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  const SizedBox(height: 4),
+                  Expanded(
+                    child: Text(
+                      description,
+                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
