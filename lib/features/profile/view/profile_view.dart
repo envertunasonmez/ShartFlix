@@ -107,58 +107,82 @@ class ProfileView extends StatelessWidget {
 
                   // Favorites Grid
                   Expanded(
-                    child:
-                        BlocBuilder<
-                          FavoriteMovieListCubit,
-                          FavoriteMovieListState
-                        >(
-                          builder: (context, state) {
-                            if (state is FavoriteLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
+                    child: BlocBuilder<FavoriteMovieListCubit, FavoriteMovieListState>(
+                      builder: (context, state) {
+                        if (state is FavoriteLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          );
+                        } else if (state is FavoriteError) {
+                          return ListView(
+                            physics:
+                                const AlwaysScrollableScrollPhysics(), // ✅ Scroll zorunlu
+                            children: [
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(40),
+                                  child: Text(
+                                    'Hata: ${state.message}',
+                                    style: const TextStyle(color: Colors.red),
+                                  ),
                                 ),
-                              );
-                            } else if (state is FavoriteError) {
-                              return Center(
-                                child: Text(
-                                  'Hata: ${state.message}',
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                              );
-                            } else if (state is FavoriteLoaded) {
-                              final movies = state.movies;
-                              if (movies.isEmpty) {
-                                return const Center(
+                              ),
+                            ],
+                          );
+                        } else if (state is FavoriteLoaded) {
+                          final movies = state.movies;
+                          if (movies.isEmpty) {
+                            return ListView(
+                              physics:
+                                  const AlwaysScrollableScrollPhysics(),
+                              children: const [
+                                SizedBox(height: 150),
+                                Center(
                                   child: Text(
                                     'Henüz favori film yok.',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                );
-                              }
-                              return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 12,
-                                      mainAxisSpacing: 12,
-                                      childAspectRatio: 0.6,
-                                    ),
-                                itemCount: movies.length,
-                                itemBuilder: (context, index) {
-                                  final movie = movies[index];
-                                  return ProfileMovieCard(
-                                    title: movie.title,
-                                    description: movie.description,
-                                    posterUrl: movie.posterUrl,
-                                    accentColor: Colors.blueAccent,
-                                  );
-                                },
+                                ),
+                              ],
+                            );
+                          }
+                          return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.6,
+                                ),
+                            itemCount: movies.length,
+                            itemBuilder: (context, index) {
+                              final movie = movies[index];
+                              return ProfileMovieCard(
+                                title: movie.title,
+                                description: movie.description,
+                                posterUrl: movie.posterUrl,
+                                accentColor: Colors.blueAccent,
                               );
-                            }
-                            return const SizedBox();
-                          },
-                        ),
+                            },
+                          );
+                        }
+                        return ListView(
+                          physics:
+                              const AlwaysScrollableScrollPhysics(), // ✅ boş durumda da refresh çalışır
+                          children: const [
+                            SizedBox(height: 150),
+                            Center(
+                              child: Text(
+                                'Yükleniyor...',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
