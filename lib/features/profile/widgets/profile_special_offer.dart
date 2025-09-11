@@ -119,28 +119,42 @@ class SpecialOfferBottomSheet extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Bonuses Section
-              Column(
-                children: [
-                  Text(
-                    'Alacağınız Bonuslar',
-                    style: AppTextStyles.bodyLarge.copyWith(
-                      color: AppColors.whiteColor,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildBonusItem(Icons.star, 'Premium\nHesap'),
-                      _buildBonusItem(Icons.favorite, 'Daha\nFazla Eşleşme'),
-                      _buildBonusItem(Icons.arrow_upward, 'Öne\nÇıkarma'),
-                      _buildBonusItem(
-                        Icons.favorite_border,
-                        'Daha\nFazla Beğeni',
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.white20, width: 1),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Alacağınız Bonuslar',
+                      style: AppTextStyles.bodyLarge.copyWith(
+                        color: AppColors.whiteColor,
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildBonusItem(
+                          AppStrings.premiumAcc,
+                          'Premium\nHesap',
+                        ),
+                        _buildBonusItem(
+                          AppStrings.moreMatches,
+                          'Daha\nFazla Eşleşme',
+                        ),
+                        _buildBonusItem(AppStrings.highlight, 'Öne\nÇıkarma'),
+                        _buildBonusItem(
+                          AppStrings.moreLikes,
+                          'Daha\nFazla Beğeni',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 24),
@@ -223,18 +237,21 @@ class SpecialOfferBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildBonusItem(IconData icon, String text) {
+  Widget _buildBonusItem(String assetPath, String text) {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(12),
+          width: 56,
+          height: 56,
           decoration: BoxDecoration(
-            color: Colors.red.withOpacity(0.3),
+            color: AppColors.primaryDark,
             borderRadius: BorderRadius.circular(25),
             border: Border.all(color: Colors.red.withOpacity(0.5)),
           ),
-          child: Icon(icon, color: Colors.white, size: 24),
+          // SVG format didn't work and i couldn't how to fix it
+          child: Center(child: Image.asset(assetPath, width: 32, height: 32)),
         ),
+
         const SizedBox(height: 8),
         Text(
           text,
