@@ -61,6 +61,13 @@ class UploadPhotoView extends StatelessWidget {
                                   PickPhotoRequested(),
                                 );
                               },
+                              onRemoveImage: selectedImage != null
+                                  ? () {
+                                      context.read<UploadPhotoBloc>().add(
+                                        RemovePhotoRequested(),
+                                      );
+                                    }
+                                  : null,
                             ),
                             const SizedBox(height: 160),
                             ActionButtonsSection(
