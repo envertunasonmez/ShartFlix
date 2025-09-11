@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 
 class ProfileMovieCard extends StatelessWidget {
   final String title;
@@ -18,7 +20,7 @@ class ProfileMovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: AppColors.blackColor,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -26,7 +28,7 @@ class ProfileMovieCard extends StatelessWidget {
         children: [
           // Poster Image
           Expanded(
-            flex: 3,
+            flex: 4,
             child: ClipRRect(
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(12),
@@ -38,15 +40,16 @@ class ProfileMovieCard extends StatelessWidget {
                 errorBuilder: (context, error, stackTrace) => Container(
                   color: Colors.grey[800],
                   child: const Center(
-                    child: Icon(Icons.broken_image, color: Colors.white),
+                    child: Icon(
+                      Icons.broken_image,
+                      color: AppColors.whiteColor,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          // Title & Description
-          Expanded(
-            flex: 2,
+          Flexible(
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.all(8.0),
@@ -58,25 +61,25 @@ class ProfileMovieCard extends StatelessWidget {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                    style: AppTextStyles.bodyNormal.copyWith(
+                      color: AppColors.whiteColor,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Expanded(
-                    child: Text(
-                      description,
-                      style: const TextStyle(color: Colors.grey, fontSize: 12),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
+                  Text(
+                    description,
+                    style: AppTextStyles.bodyNormal.copyWith(
+                      color: AppColors.white50,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

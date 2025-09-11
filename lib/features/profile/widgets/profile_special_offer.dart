@@ -26,12 +26,11 @@ class ProfileSpecialOffer extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(AppStrings.diamondIcon, width: 20, height: 20),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Text(
               'Sınırlı Teklif',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.whiteColor,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -57,70 +56,72 @@ class SpecialOfferBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.85,
+      initialChildSize: 0.78,
       minChildSize: 0.5,
       maxChildSize: 0.95,
       builder: (context, scrollController) {
         return Container(
           decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Color(0xFF8B1538), Color(0xFF2C0A0A)],
-              stops: [0.0, 1.0],
+              colors: [
+                AppColors.primaryDark, 
+                Colors.black, 
+                AppColors.primaryDark, 
+              ],
+              stops: [0.0, 0.4, 1.0],
             ),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
+
           child: Column(
             children: [
               // Header
               Container(
                 padding: const EdgeInsets.all(16.0),
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
-                    const Text(
-                      'Sınırlı Teklif',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: AppColors.white50),
+                          ),
+                          child: SvgPicture.asset(
+                            AppStrings.closeIcon,
+                            width: 24,
+                            height: 24,
+                          ),
+                        ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.black26,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+                    Text(
+                      'Sınırlı Teklif',
+                      style: AppTextStyles.heading24.copyWith(
+                        color: AppColors.whiteColor,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
 
+              const SizedBox(height: 12),
+
               // Description
-              Container(
-                width: double.infinity,
-                color: Colors.black,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 16.0,
-                ),
-                child: const Text(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
                   'Jeton paketini seçerek bonus kazanın ve yeni bölümlerin kilidini açın!',
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
+                  style: AppTextStyles.bodyNormal.copyWith(
+                    color: AppColors.white90,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -132,29 +133,33 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white24, width: 1),
+                  color: AppColors.white5,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.white20, width: 1),
                 ),
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       'Alacağınız Bonuslar',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                      style: AppTextStyles.bodyLarge.copyWith(
+                        color: AppColors.whiteColor,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildBonusItem(Icons.star, 'Premium\nHesap'),
-                        _buildBonusItem(Icons.favorite, 'Daha\nFazla Eşleşme'),
-                        _buildBonusItem(Icons.arrow_upward, 'Öne\nÇıkarma'),
                         _buildBonusItem(
-                          Icons.favorite_border,
+                          AppStrings.premiumAcc,
+                          'Premium\nHesap',
+                        ),
+                        _buildBonusItem(
+                          AppStrings.moreMatches,
+                          'Daha\nFazla Eşleşme',
+                        ),
+                        _buildBonusItem(AppStrings.highlight, 'Öne\nÇıkarma'),
+                        _buildBonusItem(
+                          AppStrings.moreLikes,
                           'Daha\nFazla Beğeni',
                         ),
                       ],
@@ -166,83 +171,71 @@ class SpecialOfferBottomSheet extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Packages Title
-              Container(
-                width: double.infinity,
-                color: Colors.black,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 16.0,
-                ),
-                child: const Text(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
                   'Kilidi açmak için bir jeton paketi seçin',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                  style: AppTextStyles.bodyLarge.copyWith(
+                    color: AppColors.whiteColor,
+                    fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
 
-              // Packages
               Expanded(
                 child: SingleChildScrollView(
                   controller: scrollController,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: _buildPackageCard(
-                          discount: '+10%',
-                          oldAmount: '200',
-                          newAmount: '300',
-                          price: '₺99,99',
-                          subtitle: 'Başına haftalık',
-                          isPopular: false,
-                        ),
+                      _buildPackageCard(
+                        discount: '+10%',
+                        oldAmount: '200',
+                        newAmount: '300',
+                        price: '₺99,99',
+                        subtitle: 'Başına haftalık',
+                        isPopular: false,
+                        spacing: 16,
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _buildPackageCard(
-                          discount: '+70%',
-                          oldAmount: '2.000',
-                          newAmount: '3.375',
-                          price: '₺799,99',
-                          subtitle: 'Başına haftalık',
-                          isPopular: true,
-                        ),
+                      SizedBox(width: 16),
+                      _buildPackageCard(
+                        discount: '+70%',
+                        oldAmount: '2.000',
+                        newAmount: '3.375',
+                        price: '₺799,99',
+                        subtitle: 'Başına haftalık',
+                        isPopular: true,
+                        spacing: 16,
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _buildPackageCard(
-                          discount: '+35%',
-                          oldAmount: '1.000',
-                          newAmount: '1.350',
-                          price: '₺399,99',
-                          subtitle: 'Başına haftalık',
-                          isPopular: false,
-                        ),
+                      SizedBox(width: 16),
+                      _buildPackageCard(
+                        discount: '+35%',
+                        oldAmount: '1.000',
+                        newAmount: '1.350',
+                        price: '₺399,99',
+                        subtitle: 'Başına haftalık',
+                        isPopular: false,
+                        spacing: 16,
                       ),
                     ],
                   ),
                 ),
               ),
 
-              const SizedBox(height: 16),
-
-              // Buy Button - CustomElevatedButton kullanımı
-              Container(
-                color: Colors.black,
-                padding: const EdgeInsets.all(16.0),
+              // Buy Button
+              Padding(
+                padding: const EdgeInsets.all(32.0),
                 child: CustomElevatedButton(
                   text: 'Tüm Jetonları Gör',
                   backgroundColor: AppColors.primary,
                   textColor: AppColors.whiteColor,
-                  onPressed: () {
-                    // Buton işlevi
-                  },
+
+                  onPressed: () {},
                 ),
               ),
             ],
@@ -252,32 +245,32 @@ class SpecialOfferBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildBonusItem(IconData icon, String text) {
+  Widget _buildBonusItem(String assetPath, String text) {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(12),
+          width: 56,
+          height: 56,
           decoration: BoxDecoration(
-            color: Colors.red.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(25),
+            color: AppColors.primaryDark,
+            borderRadius: BorderRadius.circular(100),
             border: Border.all(color: Colors.red.withOpacity(0.5)),
           ),
-          child: Icon(icon, color: Colors.white, size: 24),
+          // SVG format didn't work and i couldn't how to fix it
+          child: Center(child: Image.asset(assetPath, width: 32, height: 32)),
         ),
+
         const SizedBox(height: 8),
         Text(
           text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
           textAlign: TextAlign.center,
         ),
       ],
     );
   }
 
+  // _buildPackageCard
   Widget _buildPackageCard({
     required String discount,
     required String oldAmount,
@@ -285,86 +278,109 @@ class SpecialOfferBottomSheet extends StatelessWidget {
     required String price,
     required String subtitle,
     required bool isPopular,
+    required double spacing,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: isPopular
-              ? [const Color(0xFF9333EA), const Color(0xFF7C3AED)]
-              : [const Color(0xFFDC2626), const Color(0xFFB91C1C)],
-        ),
-        borderRadius: BorderRadius.circular(12),
-        border: isPopular
-            ? Border.all(color: Colors.purple.shade300, width: 2)
-            : null,
-      ),
-      child: Column(
-        children: [
-          // Discount Badge
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.black38,
-              borderRadius: BorderRadius.circular(12),
+    final List<Color> gradientColors = isPopular
+        ? [const Color(0xFF9333EA), const Color(0xFF7C3AED)]
+        : [const Color(0xFFDC2626), const Color(0xFFB91C1C)];
+
+    final double borderRadius = 16;
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 200,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: gradientColors,
             ),
-            child: Text(
-              discount,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: isPopular
+                ? Border.all(color: Colors.purple.shade300, width: 2)
+                : null,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Text(
+                    oldAmount,
+                    style: AppTextStyles.bodyLarge.copyWith(
+                      color: AppColors.whiteColor,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+                  Text(
+                    newAmount,
+                    style: AppTextStyles.heading32.copyWith(
+                      color: AppColors.whiteColor,
+                    ),
+                  ),
+                  Text(
+                    'Jeton',
+                    style: AppTextStyles.bodyNormal.copyWith(
+                      color: AppColors.whiteColor,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    price,
+                    style: AppTextStyles.bodyLarge.copyWith(
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: -12,
+          left: 0,
+          right: 0,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: gradientColors[0],
+                borderRadius: BorderRadius.circular(borderRadius),
+                border: Border.all(
+                  color: isPopular
+                      ? Colors.purple.shade300
+                      : const Color(0xFFB91C1C),
+                  width: 2,
+                ),
+              ),
+              child: Text(
+                discount,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.whiteColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 12),
-
-          // Old Amount (crossed out)
-          Text(
-            oldAmount,
-            style: const TextStyle(
-              color: Colors.white60,
-              fontSize: 14,
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-
-          // New Amount
-          Text(
-            newAmount,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const Text(
-            'Jeton',
-            style: TextStyle(color: Colors.white, fontSize: 14),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Price
-          Text(
-            price,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          Text(
-            subtitle,
-            style: const TextStyle(color: Colors.white70, fontSize: 10),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

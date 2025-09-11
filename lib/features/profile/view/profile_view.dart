@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/profile/profile_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/profile/profile_event.dart';
 import 'package:jr_case_boilerplate/bloc/profile/profile_state.dart';
+import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 import 'package:jr_case_boilerplate/cubit/favorite_movies/favorite_movie_list_cubit.dart';
 import 'package:jr_case_boilerplate/cubit/favorite_movies/favorite_movie_list_state.dart';
 
@@ -47,12 +49,10 @@ class ProfileView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Profil',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                        style: AppTextStyles.heading20.copyWith(
+                          color: AppColors.whiteColor,
                         ),
                       ),
                       const ProfileSpecialOffer(),
@@ -95,12 +95,10 @@ class ProfileView extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 32),
-                  const Text(
+                  Text(
                     'Beğendiklerim',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                    style: AppTextStyles.heading18.copyWith(
+                      color: AppColors.whiteColor,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -117,15 +115,16 @@ class ProfileView extends StatelessWidget {
                           );
                         } else if (state is FavoriteError) {
                           return ListView(
-                            physics:
-                                const AlwaysScrollableScrollPhysics(), // ✅ Scroll zorunlu
+                            physics: const AlwaysScrollableScrollPhysics(),
                             children: [
                               Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(40),
                                   child: Text(
                                     'Hata: ${state.message}',
-                                    style: const TextStyle(color: Colors.red),
+                                    style: AppTextStyles.bodyNormal.copyWith(
+                                      color: AppColors.primary,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -135,14 +134,15 @@ class ProfileView extends StatelessWidget {
                           final movies = state.movies;
                           if (movies.isEmpty) {
                             return ListView(
-                              physics:
-                                  const AlwaysScrollableScrollPhysics(),
-                              children: const [
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              children: [
                                 SizedBox(height: 150),
                                 Center(
                                   child: Text(
                                     'Henüz favori film yok.',
-                                    style: TextStyle(color: Colors.white),
+                                    style: AppTextStyles.bodyNormal.copyWith(
+                                      color: AppColors.whiteColor,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -170,13 +170,15 @@ class ProfileView extends StatelessWidget {
                         }
                         return ListView(
                           physics:
-                              const AlwaysScrollableScrollPhysics(), // ✅ boş durumda da refresh çalışır
-                          children: const [
+                              const AlwaysScrollableScrollPhysics(), 
+                          children: [
                             SizedBox(height: 150),
                             Center(
                               child: Text(
                                 'Yükleniyor...',
-                                style: TextStyle(color: Colors.white),
+                                style: AppTextStyles.bodyNormal.copyWith(
+                                  color: AppColors.whiteColor,
+                                ),
                               ),
                             ),
                           ],

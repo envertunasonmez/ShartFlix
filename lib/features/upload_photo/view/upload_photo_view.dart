@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:io';
 import 'package:jr_case_boilerplate/core/widgets/background/custom_background.dart';
 import 'package:jr_case_boilerplate/features/upload_photo/view/widgets/action_button_section.dart';
 import 'package:jr_case_boilerplate/features/upload_photo/view/widgets/header_section.dart';
@@ -36,7 +35,6 @@ class UploadPhotoView extends StatelessWidget {
                     isPhotoSelected = true;
                   }
                   if (state is UploadPhotoSuccess) {
-                    // Başarılı yükleme sonrası yönlendirme
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       context.go(AppRoutes.mainWrapper);
                     });

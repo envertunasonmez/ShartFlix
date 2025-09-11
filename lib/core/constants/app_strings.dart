@@ -7,6 +7,10 @@ class AppStrings {
   static const String splashAnimationPath = 'assets/splash_animation.json';
   static const String homeImage = 'assets/images/home_image.png';
   static const String circleLogo = 'assets/images/circle_logo.svg';
+  static const String premiumAcc = 'assets/images/premium_acc.png';
+  static const String moreMatches = 'assets/images/more_matches.png';
+  static const String highlight = 'assets/images/highlight.png';
+  static const String moreLikes = 'assets/images/more_likes.png';
 
   // Icons Constants
   static const String emailIconPath = 'assets/icons/ic_mail.svg';
@@ -26,4 +30,5 @@ class AppStrings {
   static const String selectedFav = 'assets/icons/selected_fav.svg';
   static const String unselectedFav = 'assets/icons/unselect_fav.svg';
   static const String diamondIcon = 'assets/icons/ic_diamond.svg';
+  static const String closeIcon = 'assets/icons/ic_close.svg';
 }
