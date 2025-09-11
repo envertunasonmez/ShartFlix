@@ -29,9 +29,8 @@ class ProfileSpecialOffer extends StatelessWidget {
             SizedBox(width: 4),
             Text(
               'Sınırlı Teklif',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.whiteColor,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -83,12 +82,10 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Sınırlı Teklif',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                      style: AppTextStyles.heading24.copyWith(
+                        color: AppColors.whiteColor,
                       ),
                     ),
                     GestureDetector(
@@ -118,9 +115,11 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                   horizontal: 16.0,
                   vertical: 16.0,
                 ),
-                child: const Text(
+                child: Text(
                   'Jeton paketini seçerek bonus kazanın ve yeni bölümlerin kilidini açın!',
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
+                  style: AppTextStyles.bodyNormal.copyWith(
+                    color: AppColors.white90,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -138,12 +137,10 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       'Alacağınız Bonuslar',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                      style: AppTextStyles.bodyLarge.copyWith(
+                        color: AppColors.whiteColor,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -173,12 +170,11 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                   horizontal: 16.0,
                   vertical: 16.0,
                 ),
-                child: const Text(
+                child: Text(
                   'Kilidi açmak için bir jeton paketi seçin',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                  style: AppTextStyles.bodyLarge.copyWith(
+                    color: AppColors.whiteColor,
+                    fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -267,11 +263,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
           textAlign: TextAlign.center,
         ),
       ],
@@ -312,10 +304,8 @@ class SpecialOfferBottomSheet extends StatelessWidget {
             ),
             child: Text(
               discount,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.whiteColor,
               ),
             ),
           ),
@@ -324,9 +314,8 @@ class SpecialOfferBottomSheet extends StatelessWidget {
           // Old Amount (crossed out)
           Text(
             oldAmount,
-            style: const TextStyle(
-              color: Colors.white60,
-              fontSize: 14,
+            style: AppTextStyles.bodyLarge.copyWith(
+              color: AppColors.whiteColor,
               decoration: TextDecoration.lineThrough,
             ),
           ),
@@ -334,16 +323,16 @@ class SpecialOfferBottomSheet extends StatelessWidget {
           // New Amount
           Text(
             newAmount,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+            style: AppTextStyles.heading32.copyWith(
+              color: AppColors.whiteColor,
             ),
           ),
 
-          const Text(
+          Text(
             'Jeton',
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: AppTextStyles.bodyNormal.copyWith(
+              color: AppColors.whiteColor,
+            ),
           ),
 
           const SizedBox(height: 16),
@@ -351,16 +340,18 @@ class SpecialOfferBottomSheet extends StatelessWidget {
           // Price
           Text(
             price,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+            style: AppTextStyles.bodyLarge.copyWith(
+              color: AppColors.whiteColor,
+              fontWeight: FontWeight.w700,
             ),
           ),
 
           Text(
             subtitle,
-            style: const TextStyle(color: Colors.white70, fontSize: 10),
+            style: AppTextStyles.bodySmall.copyWith(
+              color: AppColors.white70,
+              fontWeight: FontWeight.w500,
+            ),
             textAlign: TextAlign.center,
           ),
         ],
