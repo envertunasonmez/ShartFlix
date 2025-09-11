@@ -43,7 +43,7 @@ class MovieListResponse {
 
     if (moviesJson != null && moviesJson is List) {
       moviesList = moviesJson
-          .map((e) => Movie.fromJson(e as Map<String, dynamic>))
+          .map((e) => Movie.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList();
     }
 
