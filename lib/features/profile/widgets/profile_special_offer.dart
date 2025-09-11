@@ -189,7 +189,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                         price: '₺99,99',
                         subtitle: 'Başına haftalık',
                         isPopular: false,
-                        spacing: 16, 
+                        spacing: 16,
                       ),
                       SizedBox(width: 16),
                       _buildPackageCard(
@@ -216,11 +216,9 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 16),
-
               // Buy Button
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(32.0),
                 child: CustomElevatedButton(
                   text: 'Tüm Jetonları Gör',
                   backgroundColor: AppColors.primary,
@@ -260,7 +258,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
     );
   }
 
-  // _buildPackageCard 
+  // _buildPackageCard
   Widget _buildPackageCard({
     required String discount,
     required String oldAmount,
