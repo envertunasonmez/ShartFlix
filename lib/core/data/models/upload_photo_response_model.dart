@@ -4,10 +4,11 @@ class UploadPhotoResponseModel {
 
   UploadPhotoResponseModel({required this.photoUrl, required this.message});
 
-  factory UploadPhotoResponseModel.fromJson(Map<String, dynamic> json) {
+  factory UploadPhotoResponseModel.fromJson(Map<dynamic, dynamic> json) {
+    final map = Map<String, dynamic>.from(json);
     return UploadPhotoResponseModel(
-      photoUrl: json['photoUrl'] ?? '',
-      message: json['message'] ?? '',
+      photoUrl: map['photoUrl'] ?? '',
+      message: map['message'] ?? '',
     );
   }
 }
