@@ -58,19 +58,16 @@ void main() {
 
       expect(response.movies.length, 2);
 
-      // İlk film
       expect(response.movies[0].id, "");
       expect(response.movies[0].title, "");
       expect(response.movies[0].description, "");
       expect(response.movies[0].posterUrl, "");
 
-      // İkinci film (tamamen boş map)
       expect(response.movies[1].id, "");
       expect(response.movies[1].title, "");
       expect(response.movies[1].description, "");
       expect(response.movies[1].posterUrl, "");
 
-      // Sayfa bilgileri default
       expect(response.totalPages, 1);
       expect(response.currentPage, 1);
     });
