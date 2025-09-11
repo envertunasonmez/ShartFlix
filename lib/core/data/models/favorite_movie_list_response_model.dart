@@ -29,10 +29,10 @@ class FavoriteMovie {
       id: json['id'] ?? '',
       title: json['Title'] ?? '',
       description: json['Plot'] ?? '',
-      posterUrl: (json['Poster'] ?? '').toString().replaceFirst(
-        'http://',
-        'https://',
-      ),
+      posterUrl:
+          (json['Poster'] != null && (json['Poster'] as String).isNotEmpty)
+          ? (json['Poster'] as String).replaceFirst('http://', 'https://')
+          : 'https://',
     );
   }
 }
