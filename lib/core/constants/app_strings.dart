@@ -26,4 +26,5 @@ class AppStrings {
   static const String selectedFav = 'assets/icons/selected_fav.svg';
   static const String unselectedFav = 'assets/icons/unselect_fav.svg';
   static const String diamondIcon = 'assets/icons/ic_diamond.svg';
+  static const String closeIcon = 'assets/icons/ic_close.svg';
 }
