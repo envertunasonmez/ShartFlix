@@ -62,9 +62,19 @@ class SpecialOfferBottomSheet extends StatelessWidget {
       builder: (context, scrollController) {
         return Container(
           decoration: const BoxDecoration(
-            color: AppColors.primaryDark,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AppColors.primaryDark, 
+                Colors.black, 
+                AppColors.primaryDark, 
+              ],
+              stops: [0.0, 0.4, 1.0],
+            ),
           ),
+
           child: Column(
             children: [
               // Header
@@ -123,6 +133,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
+                  color: AppColors.white5,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.white20, width: 1),
                 ),
@@ -223,6 +234,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                   text: 'Tüm Jetonları Gör',
                   backgroundColor: AppColors.primary,
                   textColor: AppColors.whiteColor,
+
                   onPressed: () {},
                 ),
               ),
