@@ -36,7 +36,6 @@ class UploadPhotoView extends StatelessWidget {
                     isPhotoSelected = true;
                   }
                   if (state is UploadPhotoSuccess) {
-                    // Başarılı yükleme sonrası yönlendirme
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       context.go(AppRoutes.mainWrapper);
                     });
