@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 import 'package:jr_case_boilerplate/core/routes/app_routes.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -15,10 +17,14 @@ class ProfileHeader extends StatelessWidget {
   });
 
   static const Color primaryDark = Color(0xFF6F060B);
+  static const double spacing = 12;
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CircleAvatar(
           radius: 25,
@@ -28,38 +34,54 @@ class ProfileHeader extends StatelessWidget {
               ? const Icon(Icons.person, color: Colors.white, size: 30)
               : null,
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: spacing),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                style: AppTextStyles.heading20.copyWith(
+                  color: AppColors.whiteColor,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
                 'ID: $id',
-                style: const TextStyle(color: Colors.white, fontSize: 14),
+                style: AppTextStyles.bodyNormal.copyWith(
+                  color: AppColors.white60,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ),
-        Builder(
-          builder: (context) {
-            return TextButton(
-              onPressed: () {
-                context.go(AppRoutes.uploadPhoto);
-              },
-              child: const Text(
-                'Fotoğraf Ekle',
-                style: TextStyle(color: Colors.white70, fontSize: 14),
+        Container(
+          constraints: BoxConstraints(minWidth: screenWidth * 0.2),
+          height: 40,
+          decoration: BoxDecoration(
+            color: AppColors.white5,
+            borderRadius: BorderRadius.circular(spacing / 2),
+          ),
+          child: TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              minimumSize: const Size(0, 50),
+              alignment: Alignment.center,
+            ),
+            onPressed: () {
+              context.go(AppRoutes.uploadPhoto);
+            },
+            child: Text(
+              'Fotoğraf Ekle',
+              style: AppTextStyles.heading18.copyWith(
+                color: AppColors.whiteColor,
+                fontSize: 14,
               ),
-            );
-          },
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       ],
     );
