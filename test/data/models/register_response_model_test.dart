@@ -23,10 +23,9 @@ void main() {
 
     test('başarısız: eksik alanlarda varsayılan değerler alınmalı', () {
       final json = {
-        // 'token' ve 'user' eksik
       };
 
-      // Eğer eksik alan varsa default değer atayacak şekilde modeli değiştirirsek bu test geçer
+      
       final model = RegisterResponseModel.fromJson({
         "token": json["token"] ?? '',
         "user": {
