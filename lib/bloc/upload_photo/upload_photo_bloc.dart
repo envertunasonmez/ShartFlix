@@ -35,5 +35,8 @@ class UploadPhotoBloc extends Bloc<UploadPhotoEvent, UploadPhotoState> {
     on<ResetUploadPhoto>((event, emit) async {
       emit(UploadPhotoInitial());
     });
+    on<RemovePhotoRequested>((event, emit) async {
+      emit(UploadPhotoInitial());
+    });
   }
 }
