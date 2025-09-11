@@ -172,46 +172,44 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
 
-              // Packages
               Expanded(
                 child: SingleChildScrollView(
                   controller: scrollController,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: _buildPackageCard(
-                          discount: '+10%',
-                          oldAmount: '200',
-                          newAmount: '300',
-                          price: '₺99,99',
-                          subtitle: 'Başına haftalık',
-                          isPopular: false,
-                        ),
+                      _buildPackageCard(
+                        discount: '+10%',
+                        oldAmount: '200',
+                        newAmount: '300',
+                        price: '₺99,99',
+                        subtitle: 'Başına haftalık',
+                        isPopular: false,
+                        spacing: 16, 
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _buildPackageCard(
-                          discount: '+70%',
-                          oldAmount: '2.000',
-                          newAmount: '3.375',
-                          price: '₺799,99',
-                          subtitle: 'Başına haftalık',
-                          isPopular: true,
-                        ),
+                      SizedBox(width: 16),
+                      _buildPackageCard(
+                        discount: '+70%',
+                        oldAmount: '2.000',
+                        newAmount: '3.375',
+                        price: '₺799,99',
+                        subtitle: 'Başına haftalık',
+                        isPopular: true,
+                        spacing: 16,
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _buildPackageCard(
-                          discount: '+35%',
-                          oldAmount: '1.000',
-                          newAmount: '1.350',
-                          price: '₺399,99',
-                          subtitle: 'Başına haftalık',
-                          isPopular: false,
-                        ),
+                      SizedBox(width: 16),
+                      _buildPackageCard(
+                        discount: '+35%',
+                        oldAmount: '1.000',
+                        newAmount: '1.350',
+                        price: '₺399,99',
+                        subtitle: 'Başına haftalık',
+                        isPopular: false,
+                        spacing: 16,
                       ),
                     ],
                   ),
@@ -262,6 +260,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
     );
   }
 
+  // _buildPackageCard 
   Widget _buildPackageCard({
     required String discount,
     required String oldAmount,
@@ -269,75 +268,109 @@ class SpecialOfferBottomSheet extends StatelessWidget {
     required String price,
     required String subtitle,
     required bool isPopular,
+    required double spacing,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: isPopular
-              ? [const Color(0xFF9333EA), const Color(0xFF7C3AED)]
-              : [const Color(0xFFDC2626), const Color(0xFFB91C1C)],
-        ),
-        borderRadius: BorderRadius.circular(12),
-        border: isPopular
-            ? Border.all(color: Colors.purple.shade300, width: 2)
-            : null,
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.black38,
-              borderRadius: BorderRadius.circular(12),
+    final List<Color> gradientColors = isPopular
+        ? [const Color(0xFF9333EA), const Color(0xFF7C3AED)]
+        : [const Color(0xFFDC2626), const Color(0xFFB91C1C)];
+
+    final double borderRadius = 16;
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 200,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: gradientColors,
             ),
-            child: Text(
-              discount,
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: isPopular
+                ? Border.all(color: Colors.purple.shade300, width: 2)
+                : null,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Text(
+                    oldAmount,
+                    style: AppTextStyles.bodyLarge.copyWith(
+                      color: AppColors.whiteColor,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+                  Text(
+                    newAmount,
+                    style: AppTextStyles.heading32.copyWith(
+                      color: AppColors.whiteColor,
+                    ),
+                  ),
+                  Text(
+                    'Jeton',
+                    style: AppTextStyles.bodyNormal.copyWith(
+                      color: AppColors.whiteColor,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    price,
+                    style: AppTextStyles.bodyLarge.copyWith(
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: -12,
+          left: 0,
+          right: 0,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: gradientColors[0],
+                borderRadius: BorderRadius.circular(borderRadius),
+                border: Border.all(
+                  color: isPopular
+                      ? Colors.purple.shade300
+                      : const Color(0xFFB91C1C),
+                  width: 2,
+                ),
+              ),
+              child: Text(
+                discount,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.whiteColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            oldAmount,
-            style: AppTextStyles.bodyLarge.copyWith(
-              color: AppColors.whiteColor,
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-          Text(
-            newAmount,
-            style: AppTextStyles.heading32.copyWith(
-              color: AppColors.whiteColor,
-            ),
-          ),
-          Text(
-            'Jeton',
-            style: AppTextStyles.bodyNormal.copyWith(
-              color: AppColors.whiteColor,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            price,
-            style: AppTextStyles.bodyLarge.copyWith(
-              color: AppColors.whiteColor,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          Text(
-            subtitle,
-            style: AppTextStyles.bodySmall.copyWith(
-              color: AppColors.white70,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
