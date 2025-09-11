@@ -30,15 +30,19 @@ class UploadPhotoView extends StatelessWidget {
                 builder: (context, state) {
                   ImageProvider? selectedImage;
                   bool isPhotoSelected = false;
+
                   if (state is PhotoPickedSuccess) {
                     selectedImage = FileImage(File(state.photoPath));
                     isPhotoSelected = true;
                   }
+
                   if (state is UploadPhotoSuccess) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       context.go(AppRoutes.mainWrapper);
+                      context.read<UploadPhotoBloc>().add(ResetUploadPhoto());
                     });
                   }
+
                   return SingleChildScrollView(
                     physics: const ClampingScrollPhysics(),
                     child: ConstrainedBox(
