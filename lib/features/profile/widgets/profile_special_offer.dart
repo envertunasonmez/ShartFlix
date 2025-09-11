@@ -245,7 +245,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
           height: 56,
           decoration: BoxDecoration(
             color: AppColors.primaryDark,
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(100),
             border: Border.all(color: Colors.red.withOpacity(0.5)),
           ),
           // SVG format didn't work and i couldn't how to fix it
