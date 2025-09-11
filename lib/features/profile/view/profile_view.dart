@@ -115,15 +115,16 @@ class ProfileView extends StatelessWidget {
                           );
                         } else if (state is FavoriteError) {
                           return ListView(
-                            physics:
-                                const AlwaysScrollableScrollPhysics(), // ✅ Scroll zorunlu
+                            physics: const AlwaysScrollableScrollPhysics(),
                             children: [
                               Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(40),
                                   child: Text(
                                     'Hata: ${state.message}',
-                                    style: const TextStyle(color: Colors.red),
+                                    style: AppTextStyles.bodyNormal.copyWith(
+                                      color: AppColors.primary,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -134,12 +135,14 @@ class ProfileView extends StatelessWidget {
                           if (movies.isEmpty) {
                             return ListView(
                               physics: const AlwaysScrollableScrollPhysics(),
-                              children: const [
+                              children: [
                                 SizedBox(height: 150),
                                 Center(
                                   child: Text(
                                     'Henüz favori film yok.',
-                                    style: TextStyle(color: Colors.white),
+                                    style: AppTextStyles.bodyNormal.copyWith(
+                                      color: AppColors.whiteColor,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -167,13 +170,15 @@ class ProfileView extends StatelessWidget {
                         }
                         return ListView(
                           physics:
-                              const AlwaysScrollableScrollPhysics(), // ✅ boş durumda da refresh çalışır
-                          children: const [
+                              const AlwaysScrollableScrollPhysics(), 
+                          children: [
                             SizedBox(height: 150),
                             Center(
                               child: Text(
                                 'Yükleniyor...',
-                                style: TextStyle(color: Colors.white),
+                                style: AppTextStyles.bodyNormal.copyWith(
+                                  color: AppColors.whiteColor,
+                                ),
                               ),
                             ),
                           ],
