@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:jr_case_boilerplate/core/network/dio_client.dart';
 import '../models/register_request_model.dart';
 import '../models/register_response_model.dart';
 import '../models/login_request_model.dart';
@@ -6,9 +7,7 @@ import '../models/login_response_model.dart';
 import '../storage/token_storage.dart';
 
 class AuthService {
-  final Dio _dio = Dio(
-    BaseOptions(baseUrl: "https://caseapi.servicelabs.tech/"),
-  )..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+  final Dio _dio = DioClient.instance;
 
   Future<RegisterResponseModel> register(RegisterRequestModel model) async {
     final response = await _dio.post("user/register", data: model.toJson());

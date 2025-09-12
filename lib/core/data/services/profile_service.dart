@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:jr_case_boilerplate/core/network/dio_client.dart';
 import '../models/user_profile_response_model.dart';
 import '../storage/token_storage.dart';
 
 class ProfileService {
-  final Dio _dio = Dio(
-    BaseOptions(baseUrl: "https://caseapi.servicelabs.tech/"),
-  )..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+  final Dio _dio = DioClient.instance;
 
   Future<UserProfileResponseModel> getProfile() async {
     final token = await TokenStorage.getToken();
