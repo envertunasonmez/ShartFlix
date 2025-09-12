@@ -6,6 +6,7 @@ class AppColors {
   static const Color primaryDark = Color(0xFF6F060B);
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color blackColor = Color(0xFF000000);
+  static const Color purpleColor = Color(0xFF5949E6);
 
   // White Opacity Variants
   static Color white5 = whiteColor.withOpacity(0.05);
