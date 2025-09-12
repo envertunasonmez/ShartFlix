@@ -43,8 +43,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final labelColor = AppColors.white50; 
-    final iconColor = AppColors.whiteColor; 
+    final labelColor = AppColors.white50;
+    final iconColor = AppColors.whiteColor;
     final borderColor = AppColors.white20;
 
     return TextField(
@@ -53,6 +53,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       style: AppTextStyles.bodyNormal.copyWith(color: AppColors.whiteColor),
       decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColors.white5, 
         labelText: widget.labelText,
         labelStyle: AppTextStyles.bodyNormal.copyWith(color: labelColor),
         border: OutlineInputBorder(
@@ -110,6 +112,141 @@ class _CustomTextFieldState extends State<CustomTextField> {
         suffixIconConstraints: const BoxConstraints(
           minWidth: 52,
           minHeight: 52,
+        ),
+      ),
+    );
+  }
+}
+
+// ÇÖZÜM 2: Container ile wrapper yapma
+class CustomTextFieldWithBackground extends StatefulWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final String? svgIconPath;
+  final IconData? iconData;
+  final bool obscureText;
+  final TextInputType keyboardType;
+
+  const CustomTextFieldWithBackground({
+    super.key,
+    required this.controller,
+    required this.labelText,
+    this.svgIconPath,
+    this.iconData,
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text,
+  });
+
+  @override
+  State<CustomTextFieldWithBackground> createState() =>
+      _CustomTextFieldWithBackgroundState();
+}
+
+class _CustomTextFieldWithBackgroundState
+    extends State<CustomTextFieldWithBackground> {
+  late bool _isObscured;
+
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = widget.obscureText;
+  }
+
+  void _toggleVisibility() {
+    setState(() {
+      _isObscured = !_isObscured;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final labelColor = AppColors.white50;
+    final iconColor = AppColors.whiteColor;
+    final borderColor = AppColors.white20;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A), // Koyu background
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: borderColor),
+        // Opsiyonel: Hafif shadow ekleyebilirsiniz
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: widget.controller,
+        obscureText: _isObscured,
+        keyboardType: widget.keyboardType,
+        style: AppTextStyles.bodyNormal.copyWith(color: AppColors.whiteColor),
+        decoration: InputDecoration(
+          filled: false, // Container background kullandığımız için
+          labelText: widget.labelText,
+          labelStyle: AppTextStyles.bodyNormal.copyWith(color: labelColor),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none, // Container border kullandığımız için
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(color: AppColors.primary, width: 2),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          prefixIcon: widget.svgIconPath != null
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: SvgPicture.asset(
+                    widget.svgIconPath!,
+                    width: 28,
+                    height: 28,
+                    color: iconColor,
+                    fit: BoxFit.scaleDown,
+                  ),
+                )
+              : (widget.iconData != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Icon(
+                          widget.iconData,
+                          color: iconColor,
+                          size: 28,
+                        ),
+                      )
+                    : null),
+          prefixIconConstraints: const BoxConstraints(
+            minWidth: 52,
+            minHeight: 52,
+          ),
+          suffixIcon: widget.obscureText
+              ? GestureDetector(
+                  onTap: _toggleVisibility,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SvgPicture.asset(
+                      _isObscured ? AppStrings.hideIconPath : AppStrings.icSee,
+                      width: 28,
+                      height: 28,
+                      color: AppColors.white80,
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                )
+              : null,
+          suffixIconConstraints: const BoxConstraints(
+            minWidth: 52,
+            minHeight: 52,
+          ),
         ),
       ),
     );

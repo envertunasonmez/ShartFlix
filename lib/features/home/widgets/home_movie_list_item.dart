@@ -32,40 +32,52 @@ class HomeMovieListItem extends StatelessWidget {
         SizedBox(
           width: size.width,
           height: size.height,
-          child: CustomCachedNetworkImage(
-            imageUrl: image,
-            width: double.infinity,
-            height: size.height,
-            fit: BoxFit.fill,
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: 280,
-            width: size.width,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                stops: const [0.0, 0.33, 1.0],
-                colors: [
-                  AppColors.blackColor,
-                  AppColors.blackColor,
-                  Colors.transparent,
-                ],
+          child: Stack(
+            children: [
+              CustomCachedNetworkImage(
+                imageUrl: image,
+                width: double.infinity,
+                height: size.height,
+                fit: BoxFit.fill,
               ),
-            ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: 220,
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [AppColors.blackColor, Colors.transparent],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        MovieInfoSection(title: title, description: description),
         Positioned(
-          bottom: 200,
+          left: 0,
+          right: 0,
+          bottom: 10,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
+            child: MovieInfoSection(title: title, description: description),
+          ),
+        ),
+        Positioned(
+          bottom: 160,
           right: 20,
           child: BlocBuilder<FavoriteCubit, AddFavoriteState>(
             builder: (context, state) {
               final isFav = context.read<FavoriteCubit>().isFavorite(movieId);
-
               return FavButton(
                 isFav: isFav,
                 onTap: () {

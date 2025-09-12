@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/register/register_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/register/register_event.dart';
 import 'package:jr_case_boilerplate/bloc/register/register_state.dart';
+import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/data/models/register_request_model.dart';
 import 'package:jr_case_boilerplate/core/widgets/background/custom_background.dart';
 import 'package:jr_case_boilerplate/features/auth/views/register/widgets/register_header.dart';
@@ -32,6 +33,8 @@ class _RegisterViewState extends State<RegisterView> {
 
     return Scaffold(
       body: CustomBackground(
+        gradientStart: AppColors.primary,
+        gradientMiddle: AppColors.primaryDark.withOpacity(0.5),
         child: BlocConsumer<RegisterBloc, RegisterState>(
           listener: (context, state) {
             if (state is RegisterSuccess) {

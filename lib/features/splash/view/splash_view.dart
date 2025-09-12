@@ -46,6 +46,8 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomBackground(
+        gradientStart: AppColors.primary,
+        gradientMiddle: AppColors.primaryDark.withOpacity(0.5),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
