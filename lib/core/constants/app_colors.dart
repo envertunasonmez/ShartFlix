@@ -20,7 +20,6 @@ class AppColors {
   static Color white90 = whiteColor.withOpacity(0.90);
 
   // Functional Colors
-  static const Color secondary = Color(0xFF5949E6);
   static const Color success = Color(0xFF00C247);
   static const Color info = Color(0xFF004CE8);
   static const Color warning = Color(0xFFFFBE16);
