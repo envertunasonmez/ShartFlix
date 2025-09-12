@@ -71,11 +71,14 @@ class ProfileHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(spacing / 2),
           ),
           child: TextButton(
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              minimumSize: const Size(0, 50),
-              alignment: Alignment.center,
-            ),
+            style:
+                TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  minimumSize: const Size(0, 50),
+                  alignment: Alignment.center,
+                ).copyWith(
+                  overlayColor: WidgetStateProperty.all(Colors.transparent),
+                ),
             onPressed: () {
               context.go(AppRoutes.uploadPhoto);
             },
