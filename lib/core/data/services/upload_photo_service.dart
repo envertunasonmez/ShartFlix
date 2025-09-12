@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:jr_case_boilerplate/core/network/dio_client.dart';
 import 'dart:io';
 import '../models/upload_photo_response_model.dart';
 import '../storage/token_storage.dart';
 
 class UploadPhotoService {
-  final Dio _dio = Dio(
-    BaseOptions(baseUrl: "https://caseapi.servicelabs.tech/"),
-  )..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+  final Dio _dio = DioClient.instance;
 
   Future<UploadPhotoResponseModel> uploadPhoto(String photoPath) async {
     final token = await TokenStorage.getToken();
