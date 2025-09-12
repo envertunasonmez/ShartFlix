@@ -26,7 +26,7 @@ void main() {
   group('FavoriteService - addFavorite', () {
     final favoriteRequest = FavoriteRequestModel(favoriteId: '123');
 
-    test('Başarılı addFavorite', () async {
+    test('Successful addFavorite', () async {
       // TokenStorage mock
       TokenStorage.saveToken('dummy_token');
 
@@ -42,7 +42,7 @@ void main() {
       );
     });
 
-    test('addFavorite başarısız (DioError)', () async {
+    test('addFavorite  unsuccessful (DioError)', () async {
       TokenStorage.saveToken('dummy_token');
 
       when(() => mockDio.post(any(), options: any(named: 'options'))).thenThrow(
@@ -84,7 +84,7 @@ void main() {
       );
     });
 
-    test('getFavorites başarısız (DioError)', () async {
+    test('getFavorites unsuccessful (DioError)', () async {
       TokenStorage.saveToken('dummy_token');
 
       when(() => mockDio.get(any(), options: any(named: 'options'))).thenThrow(
