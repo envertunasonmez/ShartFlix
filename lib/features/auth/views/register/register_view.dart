@@ -6,6 +6,7 @@ import 'package:jr_case_boilerplate/bloc/register/register_state.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/data/models/register_request_model.dart';
 import 'package:jr_case_boilerplate/core/widgets/background/custom_background.dart';
+import 'package:jr_case_boilerplate/features/auth/views/login/login_view.dart';
 import 'package:jr_case_boilerplate/features/auth/views/register/widgets/register_header.dart';
 import 'package:jr_case_boilerplate/features/auth/views/register/widgets/register_form.dart';
 import 'package:jr_case_boilerplate/features/auth/widgets/social_buttons.dart';
@@ -39,11 +40,17 @@ class _RegisterViewState extends State<RegisterView> {
         child: BlocConsumer<RegisterBloc, RegisterState>(
           listener: (context, state) {
             if (state is RegisterSuccess) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginView()),
+              );
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
                     "✅ Kayıt başarılı",
-                    style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.whiteColor,
+                    ),
                   ),
                   backgroundColor: AppColors.success,
                 ),
@@ -53,7 +60,9 @@ class _RegisterViewState extends State<RegisterView> {
                 SnackBar(
                   content: Text(
                     "❌ Hata: ${state.error}",
-                    style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.whiteColor,
+                    ),
                   ),
                   backgroundColor: AppColors.error,
                 ),
@@ -108,13 +117,13 @@ class _RegisterViewState extends State<RegisterView> {
         );
         context.read<RegisterBloc>().add(RegisterSubmitted(model));
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
               "Şifreler eşleşmiyor!",
-              style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.whiteColor,
+              ),
             ),
           ),
         );
@@ -124,7 +133,9 @@ class _RegisterViewState extends State<RegisterView> {
         SnackBar(
           content: Text(
             "Koşulları kabul etmelisiniz!",
-            style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+            style: AppTextStyles.bodySmall.copyWith(
+              color: AppColors.whiteColor,
+            ),
           ),
         ),
       );
