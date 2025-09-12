@@ -16,7 +16,9 @@ class HomeView extends StatelessWidget {
         child: BlocBuilder<MovieBloc, MovieState>(
           builder: (context, state) {
             if (state is MovieLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              );
             } else if (state is MovieLoaded) {
               final movies = state.response.movies;
 

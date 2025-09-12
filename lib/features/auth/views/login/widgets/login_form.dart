@@ -147,7 +147,9 @@ class LoginForm extends StatelessWidget {
                 BlocBuilder<LoginBloc, LoginState>(
                   builder: (context, loginState) {
                     if (loginState is LoginLoading) {
-                      return const CircularProgressIndicator();
+                      return const CircularProgressIndicator(
+                        color: AppColors.primary,
+                      );
                     }
 
                     return CustomElevatedButton(

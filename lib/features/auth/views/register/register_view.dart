@@ -116,9 +116,11 @@ class _RegisterViewState extends State<RegisterView> {
                       LoginRedirect(width: size.width),
 
                       if (state is RegisterLoading)
-                        const Padding(
+                         Padding(
                           padding: EdgeInsets.only(top: 20),
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
                         ),
                     ],
                   ),
