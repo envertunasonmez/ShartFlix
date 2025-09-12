@@ -104,7 +104,7 @@ class _SpecialOfferBottomSheetState extends State<SpecialOfferBottomSheet> {
               end: Alignment.bottomCenter,
               colors: [
                 AppColors.primaryDark,
-                Colors.black,
+                AppColors.blackColor,
                 AppColors.primaryDark,
               ],
               stops: [0.0, 0.4, 1.0],
@@ -274,7 +274,7 @@ class BonusItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.primaryDark,
             borderRadius: BorderRadius.circular(100),
-            border: Border.all(color: Colors.red.withOpacity(0.5)),
+            border: Border.all(color: AppColors.primary.withOpacity(0.5)),
           ),
           child: Center(child: Image.asset(assetPath, width: 32, height: 32)),
         ),
@@ -325,9 +325,9 @@ class PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color selectedDiscountColor = const Color(0xFF5949E6);
+    final Color selectedDiscountColor = AppColors.purpleColor;
     final List<Color> normalGradient = [
-      const Color(0xFFDC2626),
+      AppColors.primary,
       const Color(0xFFB91C1C),
     ];
     final double borderRadius = 16;
@@ -337,7 +337,6 @@ class PackageCard extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Kartın arka planı
           Container(
             height: 200,
             decoration: BoxDecoration(
@@ -355,8 +354,8 @@ class PackageCard extends StatelessWidget {
                     top: -70,
                     left: -45,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(borderRadius),
                       ),
                       child: ImageFiltered(
                         imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
@@ -367,8 +366,8 @@ class PackageCard extends StatelessWidget {
                             shape: BoxShape.circle,
                             gradient: RadialGradient(
                               colors: [
-                                Color(0xFF5949E6), // mor
-                                Color(0xFFDC2626), // kırmızı geçişli
+                                AppColors.purpleColor,
+                                AppColors.primary,
                                 Colors.transparent,
                               ],
                               stops: [0.0, 0.6, 1.0],
@@ -381,7 +380,6 @@ class PackageCard extends StatelessWidget {
                     ),
                   ),
 
-                // Kart içeriği
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
