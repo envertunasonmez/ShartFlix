@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/widgets/background/custom_background.dart';
 import 'package:jr_case_boilerplate/features/upload_photo/view/widgets/action_button_section.dart';
 import 'package:jr_case_boilerplate/features/upload_photo/view/widgets/header_section.dart';
@@ -22,6 +23,8 @@ class UploadPhotoView extends StatelessWidget {
 
     return Scaffold(
       body: CustomBackground(
+        gradientStart: AppColors.primary,
+        gradientMiddle: AppColors.primaryDark.withOpacity(0.5),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
           child: LayoutBuilder(
