@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/widgets/background/custom_background.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 import 'package:jr_case_boilerplate/features/upload_photo/view/widgets/action_button_section.dart';
 import 'package:jr_case_boilerplate/features/upload_photo/view/widgets/header_section.dart';
 import 'package:jr_case_boilerplate/features/upload_photo/view/widgets/photo_upload_section.dart';
@@ -41,8 +42,31 @@ class UploadPhotoView extends StatelessWidget {
 
                   if (state is UploadPhotoSuccess) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Fotoğraf başarıyla yüklendi!',
+                            style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+                          ),
+                          backgroundColor: AppColors.success,
+                        ),
+                      );
                       context.go(AppRoutes.mainWrapper);
                       context.read<UploadPhotoBloc>().add(ResetUploadPhoto());
+                    });
+                  }
+
+                  if (state is UploadPhotoError) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Hata: ${state.message}',
+                            style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+                          ),
+                          backgroundColor: AppColors.error,
+                        ),
+                      );
                     });
                   }
 

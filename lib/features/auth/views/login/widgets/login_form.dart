@@ -40,13 +40,25 @@ class LoginForm extends StatelessWidget {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) async {
         if (state is LoginFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.error)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                state.error,
+                style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+              ),
+              backgroundColor: AppColors.error,
+            ),
+          );
         } else if (state is LoginSuccess) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text("Giriş başarılı!")));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "Giriş başarılı!",
+                style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+              ),
+              backgroundColor: AppColors.success,
+            ),
+          );
 
           final userId = state.response.user.id;
           final firstLogin = await _isFirstLogin(userId);

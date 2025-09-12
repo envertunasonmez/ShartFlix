@@ -110,7 +110,7 @@ class ProfileView extends StatelessWidget {
                                           'Hata: ${state.message}',
                                           style: AppTextStyles.bodyNormal
                                               .copyWith(
-                                                color: AppColors.primary,
+                                                color: AppColors.error,
                                               ),
                                         ),
                                       ),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/cubit/add_favorite/add_favorite_cubit.dart';
 import 'package:jr_case_boilerplate/cubit/add_favorite/add_favorite_state.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 import 'package:jr_case_boilerplate/features/home/widgets/movie_info_section.dart';
 import '../widgets/fav_button.dart';
 
@@ -83,6 +84,19 @@ class HomeMovieListItem extends StatelessWidget {
                 onTap: () {
                   context.read<FavoriteCubit>().toggleFavorite(movieId);
                   onFavTap?.call(!isFav);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        isFav
+                            ? 'Favorilerden çıkarıldı'
+                            : 'Favorilere eklendi',
+                        style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+                      ),
+                      backgroundColor:
+                          isFav ? AppColors.error : AppColors.success,
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
                 },
               );
             },
