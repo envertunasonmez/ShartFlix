@@ -15,31 +15,43 @@ class CustomBackground extends StatelessWidget {
 
     return Stack(
       children: [
+        Container(color: AppColors.blackColor),
+
         Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              tileMode: TileMode.mirror,
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+            gradient: RadialGradient(
+              center: Alignment.topCenter,
+              radius: 0.8,
               colors: [
-                Color(0xFF3F0306),
-                Color(0xFF090909),
-                Color(0xFF090909),
-                Color(0xFF090909),
+                AppColors.primary,
+                AppColors.primary,
+                AppColors.primaryDark,
+                AppColors.primaryDark,
+                Color(0xFF1A0000),
+                Colors.black,
               ],
-              stops: [0.0, 0.45, 0.7, 1.0],
+              stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
             ),
           ),
         ),
 
         Positioned(
-          top: -height * 0.12,
+          top: -height * 0.16,
           left: width * 0.25,
           right: width * 0.25,
           child: Container(
             height: height * 0.22,
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              gradient: RadialGradient(
+                center: Alignment.center,
+                radius: 0.8,
+                colors: [
+                  AppColors.primary.withOpacity(0.6),
+                  AppColors.primaryDark.withOpacity(0.3),
+                  Colors.transparent,
+                ],
+                stops: const [0.0, 0.6, 1.0],
+              ),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.elliptical(150, 75),
                 bottomRight: Radius.elliptical(150, 75),
@@ -50,7 +62,7 @@ class CustomBackground extends StatelessWidget {
 
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 30.0, sigmaY: 30.0),
-          child: Container(color: Colors.black.withOpacity(0.5)),
+          child: Container(color: Colors.black.withOpacity(0.3)),
         ),
 
         SafeArea(child: child),
