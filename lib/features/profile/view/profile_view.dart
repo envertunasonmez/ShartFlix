@@ -18,6 +18,8 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRefreshing = ValueNotifier<bool>(false);
+
     return Scaffold(
       body: CustomBackground(
         gradientStart: AppColors.primaryDark.withOpacity(0.5),
@@ -25,115 +27,146 @@ class ProfileView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: RefreshIndicator(
-            color: AppColors.whiteColor,
+            color: AppColors.primary,
             backgroundColor: AppColors.blackColor,
             onRefresh: () async {
+              isRefreshing.value = true;
+
+              // Profile ve favorite reload
               context.read<ProfileBloc>().add(LoadProfile());
               context.read<FavoriteMovieListCubit>().fetchFavorites();
+
               await Future.delayed(const Duration(milliseconds: 500));
+
+              isRefreshing.value = false;
             },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                // Header + Special Offer
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Header + Special Offer
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Profil',
+                          style: AppTextStyles.heading20.copyWith(
+                            color: AppColors.whiteColor,
+                          ),
+                        ),
+                        const ProfileSpecialOffer(),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Profile Info with BLoC
+                    BlocBuilder<ProfileBloc, ProfileState>(
+                      builder: (context, state) {
+                        final profile = state is ProfileLoaded
+                            ? state.profile
+                            : (state is ProfileUpdated ? state.profile : null);
+
+                        return ProfileHeader(
+                          name: profile?.name ?? 'Yükleniyor...',
+                          id: profile?.id ?? '---',
+                          photoUrl: profile?.photoUrl ?? '',
+                        );
+                      },
+                    ),
+
+                    const SizedBox(height: 32),
                     Text(
-                      'Profil',
-                      style: AppTextStyles.heading20.copyWith(
+                      'Beğendiklerim',
+                      style: AppTextStyles.heading18.copyWith(
                         color: AppColors.whiteColor,
                       ),
                     ),
-                    const ProfileSpecialOffer(),
-                  ],
-                ),
-                const SizedBox(height: 24),
+                    const SizedBox(height: 16),
 
-                // Profile Info with BLoC
-                BlocBuilder<ProfileBloc, ProfileState>(
-                  builder: (context, state) {
-                    if (state is ProfileLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(color: Colors.white),
-                      );
-                    } else if (state is ProfileError) {
-                      return Center(
-                        child: Text(
-                          'Hata: ${state.message}',
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      );
-                    } else if (state is ProfileLoaded ||
-                        state is ProfileUpdated) {
-                      final profile = state is ProfileLoaded
-                          ? state.profile
-                          : (state as ProfileUpdated).profile;
-
-                      return ProfileHeader(
-                        name: profile.name,
-                        id: profile.id,
-                        photoUrl: profile.photoUrl,
-                      );
-                    }
-                    return const ProfileHeader(
-                      name: 'Yükleniyor...',
-                      id: '---',
-                      photoUrl: '',
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 32),
-                Text(
-                  'Beğendiklerim',
-                  style: AppTextStyles.heading18.copyWith(
-                    color: AppColors.whiteColor,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Favorites Grid
-                Expanded(
-                  child:
-                      BlocBuilder<
-                        FavoriteMovieListCubit,
-                        FavoriteMovieListState
-                      >(
-                        builder: (context, state) {
-                          if (state is FavoriteLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            );
-                          } else if (state is FavoriteError) {
-                            return ListView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              children: [
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(40),
-                                    child: Text(
-                                      'Hata: ${state.message}',
-                                      style: AppTextStyles.bodyNormal.copyWith(
-                                        color: AppColors.primary,
+                    // Favorites Grid
+                    Expanded(
+                      child:
+                          BlocBuilder<
+                            FavoriteMovieListCubit,
+                            FavoriteMovieListState
+                          >(
+                            builder: (context, state) {
+                              if (state is FavoriteLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.primary,
+                                  ),
+                                );
+                              } else if (state is FavoriteError) {
+                                return ListView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  children: [
+                                    Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(40),
+                                        child: Text(
+                                          'Hata: ${state.message}',
+                                          style: AppTextStyles.bodyNormal
+                                              .copyWith(
+                                                color: AppColors.primary,
+                                              ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          } else if (state is FavoriteLoaded) {
-                            final movies = state.movies;
-                            if (movies.isEmpty) {
+                                  ],
+                                );
+                              } else if (state is FavoriteLoaded) {
+                                final movies = state.movies;
+
+                                if (movies.isEmpty) {
+                                  return ListView(
+                                    physics:
+                                        const AlwaysScrollableScrollPhysics(),
+                                    children: [
+                                      SizedBox(height: 150),
+                                      Center(
+                                        child: Text(
+                                          'Henüz favori film yok.',
+                                          style: AppTextStyles.bodyNormal
+                                              .copyWith(
+                                                color: AppColors.whiteColor,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+
+                                return GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 12,
+                                        mainAxisSpacing: 12,
+                                        childAspectRatio: 0.6,
+                                      ),
+                                  itemCount: movies.length,
+                                  itemBuilder: (context, index) {
+                                    final movie = movies[index];
+                                    return ProfileMovieCard(
+                                      title: movie.title,
+                                      description: movie.description,
+                                      posterUrl: movie.posterUrl,
+                                      accentColor: Colors.blueAccent,
+                                    );
+                                  },
+                                );
+                              }
+
                               return ListView(
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 children: [
                                   SizedBox(height: 150),
                                   Center(
                                     child: Text(
-                                      'Henüz favori film yok.',
+                                      'Yükleniyor...',
                                       style: AppTextStyles.bodyNormal.copyWith(
                                         color: AppColors.whiteColor,
                                       ),
@@ -141,43 +174,10 @@ class ProfileView extends StatelessWidget {
                                   ),
                                 ],
                               );
-                            }
-                            return GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 12,
-                                    mainAxisSpacing: 12,
-                                    childAspectRatio: 0.6,
-                                  ),
-                              itemCount: movies.length,
-                              itemBuilder: (context, index) {
-                                final movie = movies[index];
-                                return ProfileMovieCard(
-                                  title: movie.title,
-                                  description: movie.description,
-                                  posterUrl: movie.posterUrl,
-                                  accentColor: Colors.blueAccent,
-                                );
-                              },
-                            );
-                          }
-                          return ListView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            children: [
-                              SizedBox(height: 150),
-                              Center(
-                                child: Text(
-                                  'Yükleniyor...',
-                                  style: AppTextStyles.bodyNormal.copyWith(
-                                    color: AppColors.whiteColor,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                            },
+                          ),
+                    ),
+                  ],
                 ),
               ],
             ),
