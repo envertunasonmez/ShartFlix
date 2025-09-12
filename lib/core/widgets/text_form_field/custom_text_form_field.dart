@@ -15,6 +15,10 @@ class CustomTextFormField extends StatefulWidget {
   final bool hasError;
   final String? errorText;
 
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final Function(String)? onFieldSubmitted;
+
   const CustomTextFormField({
     super.key,
     required this.controller,
@@ -26,6 +30,9 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     this.hasError = false,
     this.errorText,
+    this.focusNode,
+    this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -63,6 +70,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           keyboardType: widget.keyboardType,
           style: AppTextStyles.bodyNormal.copyWith(color: textColor),
           validator: widget.validator,
+
+          focusNode: widget.focusNode,
+          textInputAction: widget.textInputAction,
+          onFieldSubmitted: widget.onFieldSubmitted,
+
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.white5,
