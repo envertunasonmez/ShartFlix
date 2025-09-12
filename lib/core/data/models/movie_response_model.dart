@@ -14,13 +14,19 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> json) {
     final images = json["Images"] as List<dynamic>?;
 
+    String poster = (images != null && images.isNotEmpty)
+        ? images[0] as String
+        : "";
+
+    if (poster.startsWith("http://")) {
+      poster = poster.replaceFirst("http://", "https://");
+    }
+
     return Movie(
       id: json["_id"] ?? "",
       title: json["Title"] ?? "",
       description: json["Plot"] ?? "",
-      posterUrl: (images != null && images.isNotEmpty)
-          ? images[0] as String
-          : "",
+      posterUrl: poster,
     );
   }
 }
