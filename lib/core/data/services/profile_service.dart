@@ -4,8 +4,9 @@ import '../models/user_profile_response_model.dart';
 import '../storage/token_storage.dart';
 
 class ProfileService {
-  final Dio _dio = DioClient.instance;
-
+ final Dio _dio;
+  ProfileService({Dio? dio}) : _dio = dio ?? DioClient.instance;
+  
   Future<UserProfileResponseModel> getProfile() async {
     final token = await TokenStorage.getToken();
     final response = await _dio.get(
