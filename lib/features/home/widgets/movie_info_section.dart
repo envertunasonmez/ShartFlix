@@ -17,40 +17,35 @@ class MovieInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 120,
-      left: 16,
-      right: 16,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipOval(
-            child: SvgPicture.asset(
-              AppStrings.circleLogo,
-              width: 40,
-              height: 40,
-              fit: BoxFit.cover,
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ClipOval(
+          child: SvgPicture.asset(
+            AppStrings.circleLogo,
+            width: 40,
+            height: 40,
+            fit: BoxFit.cover,
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: AppTextStyles.heading18.copyWith(
-                    color: AppColors.whiteColor,
-                  ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: AppTextStyles.heading18.copyWith(
+                  color: AppColors.whiteColor,
                 ),
-                const SizedBox(height: 4),
-                ExpandableText(text: description, trimLines: 1),
-              ],
-            ),
+              ),
+              const SizedBox(height: 4),
+              ExpandableText(text: description, trimLines: 1),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
