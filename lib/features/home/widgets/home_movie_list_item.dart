@@ -26,17 +26,13 @@ class HomeMovieListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final imageUrl = image.startsWith("http://")
-        ? image.replaceFirst("http://", "https://")
-        : image;
-
     return Stack(
       children: [
         SizedBox(
           width: size.width,
           height: size.height,
           child: Image.network(
-            imageUrl,
+            image,
             fit: BoxFit.fill,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
@@ -70,7 +66,6 @@ class HomeMovieListItem extends StatelessWidget {
           ),
         ),
         MovieInfoSection(title: title, description: description),
-
         Positioned(
           bottom: 200,
           right: 20,
