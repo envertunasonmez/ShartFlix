@@ -15,7 +15,7 @@ import 'package:jr_case_boilerplate/cubit/validation/validation_cubit.dart';
 import 'package:jr_case_boilerplate/cubit/validation/validation_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final double width;
@@ -28,6 +28,21 @@ class LoginForm extends StatelessWidget {
     required this.width,
     required this.formKey,
   });
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    super.dispose();
+  }
 
   Future<bool> _isFirstLogin(String userId) async {
     final prefs = await SharedPreferences.getInstance();
@@ -87,11 +102,16 @@ class LoginForm extends StatelessWidget {
               : {};
 
           return Form(
-            key: formKey,
+            key: widget.formKey,
             child: Column(
               children: [
                 CustomTextFormField(
-                  controller: emailController,
+                  controller: widget.emailController,
+                  focusNode: _emailFocus,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_passwordFocus);
+                  },
                   labelText: "E-posta",
                   svgIconPath: AppStrings.emailIconPath,
                   keyboardType: TextInputType.emailAddress,
@@ -111,7 +131,8 @@ class LoginForm extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 CustomTextFormField(
-                  controller: passwordController,
+                  controller: widget.passwordController,
+                  focusNode: _passwordFocus,
                   labelText: "Şifre",
                   svgIconPath: AppStrings.passwordIconPath,
                   obscureText: true,
@@ -137,7 +158,7 @@ class LoginForm extends StatelessWidget {
                       "Şifremi Unuttum",
                       style: AppTextStyles.bodyNormal.copyWith(
                         color: AppColors.whiteColor,
-                        fontSize: width * 0.035,
+                        fontSize: widget.width * 0.035,
                       ),
                     ),
                   ),
@@ -155,8 +176,8 @@ class LoginForm extends StatelessWidget {
                     return CustomElevatedButton(
                       text: "Giriş Yap",
                       onPressed: () {
-                        final email = emailController.text.trim();
-                        final password = passwordController.text.trim();
+                        final email = widget.emailController.text.trim();
+                        final password = widget.passwordController.text.trim();
 
                         context.read<FormValidationCubit>().validateLoginForm(
                           email,
