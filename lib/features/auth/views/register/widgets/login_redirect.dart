@@ -30,7 +30,27 @@ class LoginRedirect extends StatelessWidget {
                 debugPrint("Giriş Yap tıklandı!");
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginView()),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const LoginView(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          final offsetAnimation =
+                              Tween<Offset>(
+                                begin: const Offset(1.0, 0.0),
+                                end: Offset.zero,
+                              ).animate(
+                                CurvedAnimation(
+                                  parent: animation,
+                                  curve: Curves.easeInOut,
+                                ),
+                              );
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: child,
+                          );
+                        },
+                  ),
                 );
               },
           ),
