@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/movie_list/movie_list_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/movie_list/movie_list_state.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 import 'package:jr_case_boilerplate/features/home/widgets/home_movie_list_item.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 
@@ -42,7 +43,9 @@ class HomeView extends StatelessWidget {
               return Center(
                 child: Text(
                   "Hata: ${state.message}",
-                  style: TextStyle(color: AppColors.error),
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.error,
+                  ),
                 ),
               );
             } else {
