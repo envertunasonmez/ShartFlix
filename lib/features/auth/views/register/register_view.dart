@@ -10,6 +10,7 @@ import 'package:jr_case_boilerplate/features/auth/views/register/widgets/registe
 import 'package:jr_case_boilerplate/features/auth/views/register/widgets/register_form.dart';
 import 'package:jr_case_boilerplate/features/auth/widgets/social_buttons.dart';
 import 'package:jr_case_boilerplate/features/auth/views/register/widgets/login_redirect.dart';
+import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -38,13 +39,25 @@ class _RegisterViewState extends State<RegisterView> {
         child: BlocConsumer<RegisterBloc, RegisterState>(
           listener: (context, state) {
             if (state is RegisterSuccess) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text("✅ Kayıt başarılı")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "✅ Kayıt başarılı",
+                    style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+                  ),
+                  backgroundColor: AppColors.success,
+                ),
+              );
             } else if (state is RegisterFailure) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text("❌ Hata: ${state.error}")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "❌ Hata: ${state.error}",
+                    style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+                  ),
+                  backgroundColor: AppColors.error,
+                ),
+              );
             }
           },
           builder: (context, state) {
@@ -97,11 +110,23 @@ class _RegisterViewState extends State<RegisterView> {
       } else {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text("Şifreler eşleşmiyor!")));
+        ).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Şifreler eşleşmiyor!",
+              style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+            ),
+          ),
+        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Koşulları kabul etmelisiniz!")),
+        SnackBar(
+          content: Text(
+            "Koşulları kabul etmelisiniz!",
+            style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+          ),
+        ),
       );
     }
   }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/movie_list/movie_list_bloc.dart';
 import 'package:jr_case_boilerplate/bloc/movie_list/movie_list_state.dart';
 import 'package:jr_case_boilerplate/features/home/widgets/home_movie_list_item.dart';
+import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -36,7 +37,12 @@ class HomeView extends StatelessWidget {
                 },
               );
             } else if (state is MovieError) {
-              return Center(child: Text("Hata: ${state.message}"));
+              return Center(
+                child: Text(
+                  "Hata: ${state.message}",
+                  style: TextStyle(color: AppColors.error),
+                ),
+              );
             } else {
               return const Center(child: Text("Film bulunamadı"));
             }
