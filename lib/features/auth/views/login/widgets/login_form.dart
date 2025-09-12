@@ -11,18 +11,22 @@ import 'package:jr_case_boilerplate/core/widgets/text_form_field/custom_text_for
 import 'package:jr_case_boilerplate/core/widgets/buttons/custom_elevated_button.dart';
 import 'package:jr_case_boilerplate/core/data/models/login_request_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jr_case_boilerplate/cubit/validation/validation_cubit.dart';
+import 'package:jr_case_boilerplate/cubit/validation/validation_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final double width;
+  final GlobalKey<FormState> formKey;
 
   const LoginForm({
     super.key,
     required this.emailController,
     required this.passwordController,
     required this.width,
+    required this.formKey,
   });
 
   Future<bool> _isFirstLogin(String userId) async {
@@ -35,92 +39,148 @@ class LoginForm extends StatelessWidget {
     return false;
   }
 
+  void _showSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
+        ),
+        backgroundColor: color,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginBloc, LoginState>(
-      listener: (context, state) async {
-        if (state is LoginFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.error,
-                style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
-              ),
-              backgroundColor: AppColors.error,
-            ),
-          );
-        } else if (state is LoginSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                "Giriş başarılı!",
-                style: AppTextStyles.bodySmall.copyWith(color: AppColors.whiteColor),
-              ),
-              backgroundColor: AppColors.success,
-            ),
-          );
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) async {
+            if (state is LoginFailure) {
+              context.read<FormValidationCubit>().updateFieldValidation(
+                'password',
+                'Yanlış şifre girdiniz, lütfen tekrar deneyin',
+              );
 
-          final userId = state.response.user.id;
-          final firstLogin = await _isFirstLogin(userId);
+              _showSnackBar(context, state.error, AppColors.error);
+            }
 
-          if (firstLogin) {
-            context.go(AppRoutes.uploadPhoto);
-          } else {
-            context.go(AppRoutes.mainWrapper);
-          }
-        }
-      },
-      builder: (context, state) {
-        return Column(
-          children: [
-            CustomTextField(
-              controller: emailController,
-              labelText: "E-posta",
-              svgIconPath: AppStrings.emailIconPath,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-              controller: passwordController,
-              labelText: "Şifre",
-              svgIconPath: AppStrings.passwordIconPath,
-              obscureText: true,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  debugPrint("Şifremi unuttum tıklandı");
-                },
-                child: Text(
-                  "Şifremi Unuttum",
-                  style: AppTextStyles.bodyNormal.copyWith(
-                    color: AppColors.whiteColor,
-                    fontSize: width * 0.035,
+            if (state is LoginSuccess) {
+              context.read<FormValidationCubit>().clearErrors();
+              _showSnackBar(context, "Giriş başarılı!", AppColors.success);
+
+              final userId = state.response.user.id;
+              final firstLogin = await _isFirstLogin(userId);
+
+              context.go(
+                firstLogin ? AppRoutes.uploadPhoto : AppRoutes.mainWrapper,
+              );
+            }
+          },
+        ),
+      ],
+      child: BlocBuilder<FormValidationCubit, FormValidationState>(
+        builder: (context, validationState) {
+          final errors = validationState is FormValidationUpdated
+              ? validationState.errors
+              : {};
+
+          return Form(
+            key: formKey,
+            child: Column(
+              children: [
+                CustomTextFormField(
+                  controller: emailController,
+                  labelText: "E-posta",
+                  svgIconPath: AppStrings.emailIconPath,
+                  keyboardType: TextInputType.emailAddress,
+                  hasError: errors['email'] != null,
+                  errorText: errors['email'],
+                  validator: (value) {
+                    final error = context
+                        .read<FormValidationCubit>()
+                        .validateEmail(value);
+                    context.read<FormValidationCubit>().updateFieldValidation(
+                      'email',
+                      error,
+                    );
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                CustomTextFormField(
+                  controller: passwordController,
+                  labelText: "Şifre",
+                  svgIconPath: AppStrings.passwordIconPath,
+                  obscureText: true,
+                  hasError: errors['password'] != null,
+                  errorText: errors['password'],
+                  validator: (value) {
+                    final error = context
+                        .read<FormValidationCubit>()
+                        .validatePassword(value);
+                    context.read<FormValidationCubit>().updateFieldValidation(
+                      'password',
+                      error,
+                    );
+                    return null;
+                  },
+                ),
+
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => debugPrint("Şifremi unuttum tıklandı"),
+                    child: Text(
+                      "Şifremi Unuttum",
+                      style: AppTextStyles.bodyNormal.copyWith(
+                        color: AppColors.whiteColor,
+                        fontSize: width * 0.035,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 16),
+
+                BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, loginState) {
+                    if (loginState is LoginLoading) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    return CustomElevatedButton(
+                      text: "Giriş Yap",
+                      onPressed: () {
+                        final email = emailController.text.trim();
+                        final password = passwordController.text.trim();
+
+                        context.read<FormValidationCubit>().validateLoginForm(
+                          email,
+                          password,
+                        );
+
+                        final currentState = context
+                            .read<FormValidationCubit>()
+                            .state;
+                        if (currentState is FormValidationUpdated &&
+                            currentState.isValid) {
+                          final model = LoginRequestModel(
+                            email: email,
+                            password: password,
+                          );
+                          context.read<LoginBloc>().add(LoginSubmitted(model));
+                        }
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            state is LoginLoading
-                ? const CircularProgressIndicator()
-                : CustomElevatedButton(
-                    text: "Giriş Yap",
-                    onPressed: () {
-                      final email = emailController.text.trim();
-                      final password = passwordController.text.trim();
-
-                      final model = LoginRequestModel(
-                        email: email,
-                        password: password,
-                      );
-
-                      context.read<LoginBloc>().add(LoginSubmitted(model));
-                    },
-                  ),
-          ],
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
