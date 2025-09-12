@@ -4,15 +4,18 @@ import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/constants/app_strings.dart';
 import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final String? svgIconPath;
   final IconData? iconData;
   final bool obscureText;
   final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+  final bool hasError;
+  final String? errorText;
 
-  const CustomTextField({
+  const CustomTextFormField({
     super.key,
     required this.controller,
     required this.labelText,
@@ -20,13 +23,16 @@ class CustomTextField extends StatefulWidget {
     this.iconData,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
+    this.validator,
+    this.hasError = false,
+    this.errorText,
   });
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
   late bool _isObscured;
 
   @override
@@ -43,212 +49,109 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final labelColor = AppColors.white50;
-    final iconColor = AppColors.whiteColor;
-    final borderColor = AppColors.white20;
+    final labelColor = widget.hasError ? AppColors.error : AppColors.white50;
+    final iconColor = widget.hasError ? AppColors.error : AppColors.whiteColor;
+    final borderColor = widget.hasError ? AppColors.error : AppColors.white20;
+    final textColor = widget.hasError ? AppColors.error : AppColors.whiteColor;
 
-    return TextField(
-      controller: widget.controller,
-      obscureText: _isObscured,
-      keyboardType: widget.keyboardType,
-      style: AppTextStyles.bodyNormal.copyWith(color: AppColors.whiteColor),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColors.white5, 
-        labelText: widget.labelText,
-        labelStyle: AppTextStyles.bodyNormal.copyWith(color: labelColor),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(18),
-          borderSide: BorderSide(color: borderColor),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(18),
-          borderSide: BorderSide(color: borderColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(18),
-          borderSide: BorderSide(color: AppColors.white70, width: 2),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
-        ),
-        prefixIcon: widget.svgIconPath != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: SvgPicture.asset(
-                  widget.svgIconPath!,
-                  width: 28,
-                  height: 28,
-                  color: iconColor,
-                  fit: BoxFit.scaleDown,
-                ),
-              )
-            : (widget.iconData != null
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Icon(widget.iconData, color: iconColor, size: 28),
-                    )
-                  : null),
-        prefixIconConstraints: const BoxConstraints(
-          minWidth: 52,
-          minHeight: 52,
-        ),
-        suffixIcon: widget.obscureText
-            ? GestureDetector(
-                onTap: _toggleVisibility,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SvgPicture.asset(
-                    _isObscured ? AppStrings.hideIconPath : AppStrings.icSee,
-                    width: 28,
-                    height: 28,
-                    color: AppColors.white80,
-                    fit: BoxFit.scaleDown,
-                  ),
-                ),
-              )
-            : null,
-        suffixIconConstraints: const BoxConstraints(
-          minWidth: 52,
-          minHeight: 52,
-        ),
-      ),
-    );
-  }
-}
-
-// ÇÖZÜM 2: Container ile wrapper yapma
-class CustomTextFieldWithBackground extends StatefulWidget {
-  final TextEditingController controller;
-  final String labelText;
-  final String? svgIconPath;
-  final IconData? iconData;
-  final bool obscureText;
-  final TextInputType keyboardType;
-
-  const CustomTextFieldWithBackground({
-    super.key,
-    required this.controller,
-    required this.labelText,
-    this.svgIconPath,
-    this.iconData,
-    this.obscureText = false,
-    this.keyboardType = TextInputType.text,
-  });
-
-  @override
-  State<CustomTextFieldWithBackground> createState() =>
-      _CustomTextFieldWithBackgroundState();
-}
-
-class _CustomTextFieldWithBackgroundState
-    extends State<CustomTextFieldWithBackground> {
-  late bool _isObscured;
-
-  @override
-  void initState() {
-    super.initState();
-    _isObscured = widget.obscureText;
-  }
-
-  void _toggleVisibility() {
-    setState(() {
-      _isObscured = !_isObscured;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final labelColor = AppColors.white50;
-    final iconColor = AppColors.whiteColor;
-    final borderColor = AppColors.white20;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF1A1A1A), // Koyu background
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: borderColor),
-        // Opsiyonel: Hafif shadow ekleyebilirsiniz
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: TextField(
-        controller: widget.controller,
-        obscureText: _isObscured,
-        keyboardType: widget.keyboardType,
-        style: AppTextStyles.bodyNormal.copyWith(color: AppColors.whiteColor),
-        decoration: InputDecoration(
-          filled: false, // Container background kullandığımız için
-          labelText: widget.labelText,
-          labelStyle: AppTextStyles.bodyNormal.copyWith(color: labelColor),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: BorderSide.none, // Container border kullandığımız için
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: BorderSide(color: AppColors.primary, width: 2),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 20,
-          ),
-          prefixIcon: widget.svgIconPath != null
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: SvgPicture.asset(
-                    widget.svgIconPath!,
-                    width: 28,
-                    height: 28,
-                    color: iconColor,
-                    fit: BoxFit.scaleDown,
-                  ),
-                )
-              : (widget.iconData != null
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Icon(
-                          widget.iconData,
-                          color: iconColor,
-                          size: 28,
-                        ),
-                      )
-                    : null),
-          prefixIconConstraints: const BoxConstraints(
-            minWidth: 52,
-            minHeight: 52,
-          ),
-          suffixIcon: widget.obscureText
-              ? GestureDetector(
-                  onTap: _toggleVisibility,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: widget.controller,
+          obscureText: _isObscured,
+          keyboardType: widget.keyboardType,
+          style: AppTextStyles.bodyNormal.copyWith(color: textColor),
+          validator: widget.validator,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: AppColors.white5,
+            labelText: widget.labelText,
+            labelStyle: AppTextStyles.bodyNormal.copyWith(color: labelColor),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(color: borderColor),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(color: borderColor),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(
+                color: widget.hasError ? AppColors.error : AppColors.white70,
+                width: 2,
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(color: AppColors.error, width: 2),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(color: AppColors.error, width: 2),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ),
+            prefixIcon: widget.svgIconPath != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: SvgPicture.asset(
-                      _isObscured ? AppStrings.hideIconPath : AppStrings.icSee,
+                      widget.svgIconPath!,
                       width: 28,
                       height: 28,
-                      color: AppColors.white80,
+                      color: iconColor,
                       fit: BoxFit.scaleDown,
                     ),
-                  ),
-                )
-              : null,
-          suffixIconConstraints: const BoxConstraints(
-            minWidth: 52,
-            minHeight: 52,
+                  )
+                : (widget.iconData != null
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Icon(
+                            widget.iconData,
+                            color: iconColor,
+                            size: 28,
+                          ),
+                        )
+                      : null),
+            prefixIconConstraints: const BoxConstraints(
+              minWidth: 52,
+              minHeight: 52,
+            ),
+            suffixIcon: widget.obscureText
+                ? GestureDetector(
+                    onTap: _toggleVisibility,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: SvgPicture.asset(
+                        _isObscured
+                            ? AppStrings.hideIconPath
+                            : AppStrings.icSee,
+                        width: 28,
+                        height: 28,
+                        color: AppColors.white80,
+                      ),
+                    ),
+                  )
+                : null,
+            suffixIconConstraints: const BoxConstraints(
+              minWidth: 52,
+              minHeight: 52,
+            ),
+            errorStyle: const TextStyle(height: 0),
           ),
         ),
-      ),
+        if (widget.hasError && widget.errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 8),
+            child: Text(
+              widget.errorText!,
+              style: AppTextStyles.bodySmall.copyWith(color: AppColors.error),
+            ),
+          ),
+      ],
     );
   }
 }
