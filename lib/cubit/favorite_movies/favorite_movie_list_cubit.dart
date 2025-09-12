@@ -9,7 +9,6 @@ class FavoriteMovieListCubit extends Cubit<FavoriteMovieListState> {
 
   FavoriteMovieListCubit(this._repository) : super(FavoriteInitial());
 
-  // 🔹 Favori listeyi çek
   Future<void> fetchFavorites() async {
     try {
       emit(FavoriteLoading());
@@ -20,12 +19,10 @@ class FavoriteMovieListCubit extends Cubit<FavoriteMovieListState> {
     }
   }
 
-  // 🔹 Favori ekle
   Future<void> addFavorite(String favoriteId) async {
     try {
       emit(FavoriteLoading());
       await _repository.addFavorite(FavoriteRequestModel(favoriteId: favoriteId));
-      // Ekleme sonrası favori listesini tekrar çek
       await fetchFavorites();
     } catch (e) {
       emit(FavoriteError(e.toString()));

@@ -37,7 +37,6 @@ class _SplashViewState extends State<SplashView> {
       if (isFirstLogin) {
         GoRouter.of(context).go(AppRoutes.uploadPhoto);
       } else {
-        // Home'a giderken MainWrapper kullan
         GoRouter.of(context).go(AppRoutes.mainWrapper);
       }
     }

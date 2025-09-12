@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jr_case_boilerplate/core/widgets/cached_network_image/custom_cached_network_image.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
 
@@ -33,20 +34,11 @@ class ProfileMovieCard extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(12),
               ),
-              child: Image.network(
-                posterUrl,
-                width: double.infinity,
-                fit: BoxFit.fill,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  color: Colors.grey[800],
-                  child: const Center(
-                    child: Icon(
-                      Icons.broken_image,
-                      color: AppColors.whiteColor,
-                    ),
-                  ),
+                child: CustomCachedNetworkImage(
+                  imageUrl: posterUrl,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
                 ),
-              ),
             ),
           ),
           Flexible(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jr_case_boilerplate/core/widgets/cached_network_image/custom_cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/core/constants/app_text_styles.dart';
@@ -29,10 +30,15 @@ class ProfileHeader extends StatelessWidget {
         CircleAvatar(
           radius: 25,
           backgroundColor: primaryDark,
-          backgroundImage: photoUrl.isNotEmpty ? NetworkImage(photoUrl) : null,
-          child: photoUrl.isEmpty
-              ? const Icon(Icons.person, color: Colors.white, size: 30)
-              : null,
+          child: photoUrl.isNotEmpty
+              ? CustomCachedNetworkImage(
+                  imageUrl: photoUrl,
+                  width: 88,
+                  height: 88,
+                  fit: BoxFit.cover,
+                  borderRadius: BorderRadius.circular(44),
+                )
+              : const Icon(Icons.person, color: Colors.white, size: 30),
         ),
         const SizedBox(width: spacing),
         Expanded(
