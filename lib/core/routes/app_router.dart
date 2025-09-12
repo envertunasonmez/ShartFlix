@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jr_case_boilerplate/features/auth/views/login/login_view.dart';
 import 'package:jr_case_boilerplate/features/auth/views/register/register_view.dart';
@@ -11,33 +12,40 @@ import 'app_routes.dart';
 final GoRouter appRouter = GoRouter(
   initialLocation: AppRoutes.splash,
   routes: [
-    GoRoute(
-      path: AppRoutes.splash,
-      builder: (context, state) => const SplashView(),
-    ),
-    GoRoute(
-      path: AppRoutes.home,
-      builder: (context, state) => const HomeView(),
-    ),
-    GoRoute(
-      path: AppRoutes.profile,
-      builder: (context, state) => const ProfileView(),
-    ),
-    GoRoute(
-      path: AppRoutes.uploadPhoto,
-      builder: (context, state) => const UploadPhotoView(),
-    ),
-    GoRoute(
-      path: AppRoutes.login,
-      builder: (context, state) => const LoginView(),
-    ),
-    GoRoute(
-      path: AppRoutes.register,
-      builder: (context, state) => const RegisterView(),
-    ),
-    GoRoute(
-      path: AppRoutes.mainWrapper,
-      builder: (context, state) => const MainWrapper(),
-    ),
+    _fadeRoute(AppRoutes.splash, const SplashView()),
+    _fadeRoute(AppRoutes.home, const HomeView()),
+    _fadeRoute(AppRoutes.profile, const ProfileView()),
+    _fadeRoute(AppRoutes.uploadPhoto, const UploadPhotoView()),
+    _fadeRoute(AppRoutes.login, const LoginView()),
+    _fadeRoute(AppRoutes.register, const RegisterView()),
+    _fadeRoute(AppRoutes.mainWrapper, const MainWrapper()),
   ],
 );
+
+GoRoute _fadeRoute(String path, Widget page) {
+  return GoRoute(
+    path: path,
+    pageBuilder: (context, state) {
+      return CustomTransitionPage(
+        key: state.pageKey,
+        child: page,
+        transitionDuration: const Duration(milliseconds: 400),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final offsetAnimation = Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation);
+          final fadeAnimation = Tween<double>(
+            begin: 0,
+            end: 1,
+          ).animate(animation);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: FadeTransition(opacity: fadeAnimation, child: child),
+          );
+        },
+      );
+    },
+  );
+}
