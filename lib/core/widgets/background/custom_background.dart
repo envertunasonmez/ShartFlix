@@ -4,8 +4,15 @@ import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 
 class CustomBackground extends StatelessWidget {
   final Widget child;
+  final Color? gradientStart;
+  final Color? gradientMiddle;
 
-  const CustomBackground({super.key, required this.child});
+  const CustomBackground({
+    super.key,
+    required this.child,
+    this.gradientStart,
+    this.gradientMiddle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,24 +20,27 @@ class CustomBackground extends StatelessWidget {
     final height = size.height;
     final width = size.width;
 
+    final startColor = gradientStart ?? AppColors.blackColor;
+    final middleColor = gradientMiddle ?? const Color(0xFF1A0000);
+
     return Stack(
       children: [
         Container(color: AppColors.blackColor),
 
         Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: RadialGradient(
               center: Alignment.topCenter,
               radius: 0.8,
               colors: [
-                AppColors.primary,
-                AppColors.primary,
-                AppColors.primaryDark,
-                AppColors.primaryDark,
-                Color(0xFF1A0000),
-                Colors.black,
+                startColor,
+                startColor,
+                middleColor,
+                middleColor,
+                const Color(0xFF1A0000),
+                AppColors.blackColor,
               ],
-              stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
+              stops: const [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
             ),
           ),
         ),
@@ -46,8 +56,8 @@ class CustomBackground extends StatelessWidget {
                 center: Alignment.center,
                 radius: 0.8,
                 colors: [
-                  AppColors.primary.withOpacity(0.6),
-                  AppColors.primaryDark.withOpacity(0.3),
+                  (gradientStart ?? AppColors.blackColor).withOpacity(0.6),
+                  (gradientMiddle ?? const Color(0xFF1A0000)).withOpacity(0.3),
                   Colors.transparent,
                 ],
                 stops: const [0.0, 0.6, 1.0],
@@ -62,7 +72,7 @@ class CustomBackground extends StatelessWidget {
 
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 30.0, sigmaY: 30.0),
-          child: Container(color: Colors.black.withOpacity(0.3)),
+          child: Container(color: AppColors.blackColor.withOpacity(0.3)),
         ),
 
         SafeArea(child: child),
