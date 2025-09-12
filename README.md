@@ -14,23 +14,23 @@
 
 <table>
    <tr>
-      <td><img src="screenshots/ss_splash.png" width="300"/></td>
-      <td><img src="screenshots/ss_login.png" width="300"/></td>
-      <td><img src="screenshots/ss_register.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_splash.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_login.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_register.png" width="300"/></td>
    </tr>
    <tr>
-      <td><img src="screenshots/ss_home_1.png" width="300"/></td>
-      <td><img src="screenshots/ss_home.png" width="300"/></td>
-      <td><img src="screenshots/ss_profile.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_home_1.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_home.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_profile.png" width="300"/></td>
    </tr>
    <tr>
-      <td><img src="screenshots/ss_offer.png" width="300"/></td>
-      <td><img src="screenshots/ss_offer_1.png" width="300"/></td>
-      <td><img src="screenshots/ss_offer_2.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_offer.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_offer_1.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_offer_2.png" width="300"/></td>
    </tr>
      <tr>
-      <td><img src="screenshots/ss_upload_photo_1.png" width="300"/></td>
-      <td><img src="screenshots/ss_upload_photo.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_upload_photo_1.png" width="300"/></td>
+      <td><img src="assets/screenshots/ss_upload_photo.png" width="300"/></td>
 -   </tr>
 </table>
 
