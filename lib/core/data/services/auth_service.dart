@@ -7,7 +7,8 @@ import '../models/login_response_model.dart';
 import '../storage/token_storage.dart';
 
 class AuthService {
-  final Dio _dio = DioClient.instance;
+  final Dio _dio;
+  AuthService({Dio? dio}) : _dio = dio ?? DioClient.instance;
 
   Future<RegisterResponseModel> register(RegisterRequestModel model) async {
     final response = await _dio.post("user/register", data: model.toJson());

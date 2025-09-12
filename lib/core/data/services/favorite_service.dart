@@ -6,8 +6,9 @@ import '../models/favorite_response_model.dart';
 import '../storage/token_storage.dart';
 
 class FavoriteService {
-  final Dio _dio = DioClient.instance;
-
+  final Dio _dio;
+  FavoriteService({Dio? dio}) : _dio = dio ?? DioClient.instance;
+  
   Future<FavoriteResponseModel> addFavorite(FavoriteRequestModel model) async {
     final token = await TokenStorage.getToken();
 
