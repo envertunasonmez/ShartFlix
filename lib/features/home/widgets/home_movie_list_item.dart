@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jr_case_boilerplate/core/widgets/cached_network_image/custom_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jr_case_boilerplate/core/constants/app_colors.dart';
 import 'package:jr_case_boilerplate/cubit/add_favorite/add_favorite_cubit.dart';
@@ -31,19 +32,11 @@ class HomeMovieListItem extends StatelessWidget {
         SizedBox(
           width: size.width,
           height: size.height,
-          child: Image.network(
-            image,
+          child: CustomCachedNetworkImage(
+            imageUrl: image,
+            width: double.infinity,
+            height: size.height,
             fit: BoxFit.fill,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return const Center(child: CircularProgressIndicator());
-            },
-            errorBuilder: (context, error, stackTrace) => Container(
-              color: Colors.grey[300],
-              child: const Center(
-                child: Icon(Icons.broken_image, size: 50, color: Colors.grey),
-              ),
-            ),
           ),
         ),
         Align(
